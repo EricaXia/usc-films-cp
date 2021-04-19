@@ -64,26 +64,25 @@ struct DetailsView: View {
                                 if let castArr = movieDetails.cast {
                                     Text("Cast & Crew").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                                     ScrollView(.horizontal, showsIndicators: true) {
-                                        HStack(alignment: .top, spacing: 0) {
+                                        HStack(alignment: .top) {
                                             ForEach(castArr) {
                                                 castMember in
-                                                VStack(spacing: 0) {
+                                                VStack(alignment: .center, spacing: 0) {
                                                         KFImage(URL(string: castMember.imgPath)!)
                                                             .resizable()
                                                             .placeholder{
                                                                 Image("cast_placeholder").scaledToFit()
                                                             }
                                                             .aspectRatio(contentMode: .fit)
-                                                            .frame(width: 100)
+                                                            .frame(width: 90)
                                                             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                                                             .shadow(radius: 1)
                                                         Text(castMember.nameStr)
-                                                            .font(.footnote)
-                                                            .multilineTextAlignment(.center)
-                                                            .frame(width: 128.0)
+                                                            .font(.caption)
+                                                            .multilineTextAlignment(.leading)
+                                                            .frame(width: 132)
                                                             .fixedSize(horizontal: true, vertical: false)
-                                                    }
-                                                .contentShape(RoundedRectangle(cornerRadius: 10))
+                                                }.padding(.trailing, -20)
                                             }
                                         }
                                     }
