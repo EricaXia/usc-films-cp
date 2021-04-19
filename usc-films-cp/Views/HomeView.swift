@@ -55,60 +55,60 @@ struct HomeView: View {
                 
                 // Movies content
                 ScrollView(.vertical, showsIndicators: false) {
-                VStack {
-                    HStack {
-                        Text("USC Films")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                        Spacer()
-                    }
-                    HStack {
-                        Text("Now Playing")
-                            .font(.title)
-                            .fontWeight(.bold)
-                        Spacer()
-                    }
-                    
-                    
-                    VStack(alignment:.center) {
+                    VStack {
                         HStack {
-                            GeometryReader { proxy in
-                                            MainSlideView(numSlides: 5) {
-                                                ForEach(downloader.movies) { movie in
-                                                    ZStack {
-                                                        KFImage(URL(string: movie.PosterPath)!)
-                                                            .blur(radius: 25)
-                                                            .resizable()
-                                                            .frame(width: proxy.size.width * 0.98, height: proxy.size.height)
-                                                            .scaledToFill()
-                                                            .clipped()
-                                                            .opacity(0.8)
-
-                                                        KFImage(URL(string: movie.PosterPath)!)
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-                                                            .clipped()
-                                                        
-                                                    }
-
+                            Text("USC Films")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("Now Playing")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        
+                        
+                        VStack(alignment:.center) {
+                            HStack {
+                                GeometryReader { proxy in
+                                    MainSlideView(numSlides: 5) {
+                                        ForEach(downloader.movies) { movie in
+                                            NavigationLink(destination: DetailsView(movie: movie)){
+                                                ZStack {
+                                                    KFImage(URL(string: movie.PosterPath)!)
+                                                        .blur(radius: 25)
+                                                        .resizable()
+                                                        .frame(width: proxy.size.width * 0.98, height: proxy.size.height)
+                                                        .scaledToFill()
+                                                        .clipped()
+                                                        .opacity(0.8)
+                                                    
+                                                    KFImage(URL(string: movie.PosterPath)!)
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+                                                        .clipped()
+                                                    
                                                 }
                                             }
+                                        }
+                                    }
+                                }
+                                .frame(height: 280, alignment: .center)
                             }
-                            .frame(height: 280, alignment: .center)
-                        }
-                    }.padding(.vertical)
-
-                    
-                    Spacer()
-                    
-                    //Carousels
-                    
+                        }.padding(.vertical)
+                        
+                        
+                        Spacer()
+                        
+                        //Carousels
+                        
                         VStack(alignment: .leading) {
                             topRatedMovies
-                            // TODO: fix popular movies make it same as Top Rated ONCE I finalize details
-//                            Spacer()
-//                            popularMovies
+                            //                            Spacer()
+                            //                            popularMovies
                         }
                         
                         VStack(alignment: .center) {
@@ -123,7 +123,7 @@ struct HomeView: View {
                         
                     }
                     
-
+                    
                     Spacer()
                         // Adds padding and Nav Bar
                         
@@ -151,24 +151,24 @@ struct HomeView: View {
                     ForEach(downloader.movies_toprated) {
                         movie in
                         NavigationLink(destination: DetailsView(movie: movie)){
-                        VStack {
-                            KFImage(URL(string: movie.PosterPath)!)
-                                .resizable()
-                                .placeholder{
-                                    Image("movie_placeholder").scaledToFit()
-                                }
-                                .frame(width: 100, height: 150)
-                                .cornerRadius(10)
-                            Text(movie.titleStr)
-                                .font(.footnote)
-                                .fontWeight(.bold)
-                                .multilineTextAlignment(.center)
-                                .frame(width: 105.0)
-                                .fixedSize(horizontal: false, vertical: true)
-                            Text(movie.yearStr)
-                                .font(.footnote)
-                                .foregroundColor(Color.gray)
-                                .multilineTextAlignment(.center)
+                            VStack {
+                                KFImage(URL(string: movie.PosterPath)!)
+                                    .resizable()
+                                    .placeholder{
+                                        Image("movie_placeholder").scaledToFit()
+                                    }
+                                    .frame(width: 100, height: 150)
+                                    .cornerRadius(10)
+                                Text(movie.titleStr)
+                                    .font(.footnote)
+                                    .fontWeight(.bold)
+                                    .multilineTextAlignment(.center)
+                                    .frame(width: 105.0)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Text(movie.yearStr)
+                                    .font(.footnote)
+                                    .foregroundColor(Color.gray)
+                                    .multilineTextAlignment(.center)
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -188,7 +188,7 @@ struct HomeView: View {
                             Button {
                                 print("Share on Twitter")
                                 openURL(URL(string: "https://www.twitter.com/intent/tweet?text=Check%20out%20this%20link:%20https://www.themoviedb.org/movie/\(movie.idStr)&hashtags=CSCI571USCFilms")!)
-
+                                
                             } label: {
                                 Label("Share on Twitter", image: "twitter")
                             }
@@ -242,7 +242,7 @@ struct HomeView: View {
                             Button {
                                 print("Share on Twitter")
                                 openURL(URL(string: "https://www.twitter.com/intent/tweet?text=Check%20out%20this%20link:%20https://www.themoviedb.org/movie/\(movie.idStr)&hashtags=CSCI571USCFilms")!)
-
+                                
                             } label: {
                                 Label("Share on Twitter", image: "twitter")
                             }
