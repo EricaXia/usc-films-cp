@@ -65,7 +65,7 @@ struct MovieD: Codable, Identifiable {
     }
     var yearStr: String {
         guard let year = year else { return "" }
-        return "(\(year))"
+        return "\(year)"
     }
     var starRatingStr: String {
         guard let star_rating = star_rating else { return "" }

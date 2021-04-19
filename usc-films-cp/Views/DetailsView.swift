@@ -8,6 +8,21 @@
 import SwiftUI
 import youtube_ios_player_helper
 
+struct YTWrapper : UIViewRepresentable {
+    var videoID : String
+    let playerVars = ["controls": 1, "playsinline": 1]
+    
+    func makeUIView(context: Context) -> YTPlayerView {
+        let playerView = YTPlayerView()
+        playerView.load(withVideoId: videoID, playerVars: playerVars)
+        return playerView
+    }
+    
+    func updateUIView(_ uiView: YTPlayerView, context: Context) {
+        //
+    }
+}
+
 struct DetailsView: View {
     @State var isDelay = false
     
@@ -23,20 +38,29 @@ struct DetailsView: View {
     var body: some View {
         Group {
             if (isDelay) {
-                    List {
-                        ForEach(detailsDownloader.movieD) {
-                            movieD in
+                if let movieDetails = detailsDownloader.movieD.first {
+                    ScrollView {
                             VStack {
-                                // VIDEO HERE
-                                Text(movieD.titleStr)
-                                    .foregroundColor(Color.black)
-                                Text(movieD.yearStr)
-                                Text(movieD.overviewStr)
-                            }
+                            YTWrapper(videoID: movieDetails.videoIdStr).frame(width: 350, height: 200)
+                            Text(movieDetails.titleStr)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .multilineTextAlignment(.leading)
+                                // TODO: put more details here
+                            Text(movieDetails.yearStr).multilineTextAlignment(.leading)
+                            Text(movieDetails.overviewStr).multilineTextAlignment(.leading)
                         }
-                    }
-                    
-            
+                        // CAST
+                        castView
+                        // REVIEWS
+                        reviewsView
+                        // RECOMMENDED
+                        recView
+                    // ends the ScrollView
+                    }.padding()
+                } else {
+                    Text("Loading...")
+                }
             } else {
                 Text("Loading...")
             }
@@ -54,17 +78,23 @@ struct DetailsView: View {
     
     
     private var castView: some View {
+
         HStack {
-            Text("cast here")
-        }
+            Text("Cast & Crew").font(.title2)
+        }.padding(.vertical)
+
     }
     
     private var reviewsView: some View {
-        Text("reviews here")
+        HStack {
+            Text("Reviews")
+        }.padding(.vertical)
     }
     
     private var recView: some View {
-        Text("recommended movies")
+        HStack {
+            Text("Recommended Movies")
+        }.padding(.vertical)
     }
     
 }
