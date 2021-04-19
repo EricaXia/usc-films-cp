@@ -135,6 +135,23 @@ struct DetailsView: View {
                             if let recsArr = movieDetails.recs {
                                 VStack(alignment: .leading) {
                                 Text("Recommended Movies").font(.title2).fontWeight(.bold).padding(.bottom, 0.0)
+                                    ScrollView(.horizontal, showsIndicators: true) {
+                                        HStack(alignment: .top, spacing: 22) {
+                                            ForEach(recsArr) {
+                                                rec in
+                                                VStack {
+                                                    KFImage(URL(string: rec.PosterPath)!)
+                                                        .resizable()
+                                                        .placeholder{
+                                                            Image("movie_placeholder").scaledToFit()
+                                                        }
+                                                        .frame(width: 100, height: 150)
+                                                        .cornerRadius(10)
+                                                }
+                                                
+                                            }
+                                        }
+                                    }
                                 }
                                 
                                 
