@@ -25,9 +25,22 @@ struct ReviewView: View {
                 if let movieDetails = detailsDownloader.movieD.first {
                     if let reviewsArr = movieDetails.reviews {
                         ScrollView(.vertical) {
-                        Text(reviewsArr[review_num].authorStr)
-                        Text(reviewsArr[review_num].contentStr)
-                        }
+                            
+                            VStack(alignment: .leading, spacing: 10) {
+                                Spacer()
+                                Spacer()
+                                Spacer()
+                                Text(movieDetails.titleStr).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).fontWeight(.bold)
+                                Text("By \(reviewsArr[review_num].authorStr) on \(reviewsArr[review_num].reviewDateStr)").foregroundColor(.gray)
+                                HStack {
+                                    Image(systemName: "star.fill").foregroundColor(.red)
+                                    Text("\(reviewsArr[review_num].starRatingReviewStr)/5.0").fontWeight(.medium)
+                                }
+                                Divider()
+                                Text(reviewsArr[review_num].contentStr)
+                                Spacer()
+                            }
+                        }.padding()
                     }
                 }
             }
@@ -37,8 +50,8 @@ struct ReviewView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
                 self.isDelay = true;
             }
+        }
     }
-}
 }
 
 //struct ReviewView_Previews: PreviewProvider {
