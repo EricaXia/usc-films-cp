@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 import youtube_ios_player_helper
 
 struct YTWrapper : UIViewRepresentable {
@@ -62,8 +63,29 @@ struct DetailsView: View {
                             }
                                 if let castArr = movieDetails.cast {
                                     Text("Cast & Crew").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                    ForEach(castArr) {
-                                        castMember in Text(castMember.nameStr)
+                                    ScrollView(.horizontal, showsIndicators: true) {
+                                        HStack(alignment: .top, spacing: 0) {
+                                            ForEach(castArr) {
+                                                castMember in
+                                                VStack(spacing: 0) {
+                                                        KFImage(URL(string: castMember.imgPath)!)
+                                                            .resizable()
+                                                            .placeholder{
+                                                                Image("cast_placeholder").scaledToFit()
+                                                            }
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .frame(width: 100)
+                                                            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                                                            .shadow(radius: 1)
+                                                        Text(castMember.nameStr)
+                                                            .font(.footnote)
+                                                            .multilineTextAlignment(.center)
+                                                            .frame(width: 128.0)
+                                                            .fixedSize(horizontal: true, vertical: false)
+                                                    }
+                                                .contentShape(RoundedRectangle(cornerRadius: 10))
+                                            }
+                                        }
                                     }
                                 }
                         

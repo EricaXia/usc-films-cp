@@ -66,7 +66,7 @@ movieDetailsRouter.get("/", (req, res) => {
 
         details2["year"] = details2["release_date"].split("-")[0];
         details2["star_rating"] = details2["vote_average"] / 2;
-        
+
         const genres_list = []
         if (details2["genres"].length > 0) {
           for (var i = 0; i < details2["genres"].length; i++) {
@@ -85,7 +85,7 @@ movieDetailsRouter.get("/", (req, res) => {
         }
 
         const cast2 = responses[2].data.cast;
-        details2["cast"] = cast2;
+        details2["cast"] = cast2.slice(0, 10);
         // let cast3 = [];
         // for (var i = 0; i < cast2.length; i++) {
         //   if (cast2[i]["profile_path"]) {
@@ -106,7 +106,7 @@ movieDetailsRouter.get("/", (req, res) => {
 
           reviews2[i]["star_rating"] = reviews2[i]["author_details"]["rating"] / 2
         }
-        details2["reviews"] = reviews2;
+        details2["reviews"] = reviews2.slice(0, 3);
 
         const recs2 = responses[4].data;
         details2["recs"] = recs2;
