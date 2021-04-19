@@ -25,7 +25,9 @@ struct YTWrapper : UIViewRepresentable {
 }
 
 struct DetailsView: View {
+    // Time delay to wait for load data
     @State var isDelay = false
+    // Show More toggle for Overview text
     @State var showMoreText = true
     
     @ObservedObject var detailsDownloader: DetailsDownloader
@@ -63,7 +65,7 @@ struct DetailsView: View {
                                     .lineLimit( showMoreText ? 3: nil)
                                 Button(action: { self.showMoreText.toggle()} ) { Text("Show More...").font(.footnote).fontWeight(.medium).foregroundColor(Color.gray) }.padding(.leading, 250)
                             }
-                            // CAST 
+                            // CAST
                             if let castArr = movieDetails.cast {
                                 Text("Cast & Crew").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                                 ScrollView(.horizontal, showsIndicators: true) {
@@ -100,20 +102,35 @@ struct DetailsView: View {
                                 
                                 ForEach(reviewsArr) {
                                     review in
-                                    // NVAIGATION LINK
+                                    // TODO: add NAVIGATION LINK
+
+                                        VStack(alignment: .leading, spacing: 10) {
+
+                                            Text("A review by \(review.authorStr)").fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
+                                            Text("Written by \(review.authorStr) on \(review.reviewDateStr)").foregroundColor(.gray).padding(EdgeInsets(top: -10, leading: 10, bottom: 2, trailing: 10))
+                                            HStack {
+                                                Image(systemName: "star.fill").foregroundColor(.red).padding(.leading, 10.0)
+                                                Text("\(review.starRatingReviewStr)/5.0").fontWeight(.medium)
+                                            }
+                                            
+                                                Text(review.contentStr)
+                                                    .fontWeight(.medium)
+                                                    .frame(width: 350)
+                                                    .lineLimit(4)
+                                                    .padding(EdgeInsets(top: 0, leading: 5, bottom: 5, trailing: 0))
+                                                
+
+                                        }
+                                        .cornerRadius(10)
+                                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(.gray), lineWidth: 1)
+                                    )
                                     
-                                    Text("A review by \(review.authorStr)")
-                                    Text("Written by \(review.authorStr) on \(review.reviewDateStr)")
-                                    HStack {
-                                        Image(systemName: "star.fill").foregroundColor(.red)
-                                        Text("\(review.starRatingReviewStr)/5.0").fontWeight(.medium)
-                                    }
                                     
                                     
                                 }
                             }
-                            // RECOMMENDED
-                            recView
+                            // RECOMMENDED CAROUSEL
+
                         }
                         // ends the ScrollView
                     }.padding()
@@ -133,35 +150,7 @@ struct DetailsView: View {
             }
         }
     }
-    
-    
-    
-    
-    //    private var castView: some View {
-    //        VStack {
-    //            Text("Cast & Crew").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-    //            List {
-    //                ForEach(movieDetails.cast) {
-    //                    castmember in {
-    //                        Text(castmember.name)
-    //                    }
-    //                }
-    //            }
-    //        }.padding(.vertical)
-    //
-    //    }
-    
-    private var reviewsView: some View {
-        HStack {
-            Text("Reviews").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-        }.padding(.vertical)
-    }
-    
-    private var recView: some View {
-        HStack {
-            Text("Recommended Movies").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-        }.padding(.vertical)
-    }
+
     
 }
 
