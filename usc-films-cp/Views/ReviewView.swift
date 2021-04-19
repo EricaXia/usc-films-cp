@@ -8,13 +8,41 @@
 import SwiftUI
 
 struct ReviewView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    @ObservedObject var detailsDownloader: DetailsDownloader
+    @State var isDelay = false
+    var movie: Movie
+    var review_num: Int
+    
+    init(movie: Movie, review_num: Int) {
+        self.movie = movie
+        self.detailsDownloader = DetailsDownloader(movie: movie)
+        self.review_num = review_num
     }
+    
+    var body: some View {
+        Group {
+            if (isDelay) {
+                if let movieDetails = detailsDownloader.movieD.first {
+                    if let reviewsArr = movieDetails.reviews {
+                        ScrollView(.vertical) {
+                        Text(reviewsArr[review_num].authorStr)
+                        Text(reviewsArr[review_num].contentStr)
+                        }
+                    }
+                }
+            }
+        }.onAppear {
+            detailsDownloader.getMovieDetails()
+            print("Details downloaded in review view")
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+                self.isDelay = true;
+            }
+    }
+}
 }
 
-struct ReviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        ReviewView()
-    }
-}
+//struct ReviewView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ReviewView()
+//    }
+//}

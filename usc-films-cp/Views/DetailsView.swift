@@ -100,25 +100,24 @@ struct DetailsView: View {
                             if let reviewsArr = movieDetails.reviews {
                                 Text("Reviews").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                                 
-                                ForEach(reviewsArr) {
-                                    review in
-                                    // TODO: add NAVIGATION LINK
-                                    NavigationLink(destination: DetailsView(movie: movie)){
+                                ForEach(0..<reviewsArr.count) {
+                                    i in
+                                    NavigationLink(destination: ReviewView(movie: movie, review_num: i)){
                                         
                                         VStack(alignment: .leading, spacing: 10) {
                                             
-                                            Text("A review by \(review.authorStr)").fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
-                                            Text("Written by \(review.authorStr) on \(review.reviewDateStr)").foregroundColor(.gray).padding(EdgeInsets(top: -10, leading: 10, bottom: 2, trailing: 10))
+                                            Text("A review by \(reviewsArr[i].authorStr)").fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
+                                            Text("Written by \(reviewsArr[i].authorStr) on \(reviewsArr[i].reviewDateStr)").foregroundColor(.gray).padding(EdgeInsets(top: -10, leading: 10, bottom: 2, trailing: 10))
                                             HStack {
                                                 Image(systemName: "star.fill").foregroundColor(.red).padding(.leading, 10.0)
-                                                Text("\(review.starRatingReviewStr)/5.0").fontWeight(.medium)
+                                                Text("\(reviewsArr[i].starRatingReviewStr)/5.0").fontWeight(.medium)
                                             }
                                             
-                                            Text(review.contentStr)
+                                            Text(reviewsArr[i].contentStr)
                                                 .fontWeight(.medium)
                                                 .frame(width: 350)
                                                 .lineLimit(4)
-                                                .padding(EdgeInsets(top: 0, leading: 5, bottom: 5, trailing: 0))
+                                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 2))
                                             
                                             
                                         }
@@ -153,9 +152,9 @@ struct DetailsView: View {
             }
         }
     }
-    
-    
 }
+
+
 
 //struct DetailsView_Previews: PreviewProvider {
 //    static var previews: some View {

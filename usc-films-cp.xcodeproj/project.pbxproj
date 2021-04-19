@@ -27,6 +27,7 @@
 		2BB3FFA1262D033200463D08 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BB3FFA0262D033200463D08 /* Preview Assets.xcassets */; };
 		2BB3FFAC262D033200463D08 /* usc_films_cpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB3FFAB262D033200463D08 /* usc_films_cpTests.swift */; };
 		2BB3FFB7262D033200463D08 /* usc_films_cpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB3FFB6262D033200463D08 /* usc_films_cpUITests.swift */; };
+		2BC89922262E44F5008F39E6 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC89921262E44F5008F39E6 /* ReviewView.swift */; };
 		3CDB4DC4567AD48F392290DD /* Pods_usc_films_cp_usc_films_cpUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCBEE76B4B8323214934D4D8 /* Pods_usc_films_cp_usc_films_cpUITests.framework */; };
 		516FF9DC278D87CBF461920E /* Pods_usc_films_cp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB4B2C04CFD12163CCD3596 /* Pods_usc_films_cp.framework */; };
 /* End PBXBuildFile section */
@@ -76,6 +77,7 @@
 		2BB3FFB2262D033200463D08 /* usc-films-cpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "usc-films-cpUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB3FFB6262D033200463D08 /* usc_films_cpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = usc_films_cpUITests.swift; sourceTree = "<group>"; };
 		2BB3FFB8262D033200463D08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2BC89921262E44F5008F39E6 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		997104E5AB3E5F22FC78D3AF /* Pods_usc_films_cpTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_usc_films_cpTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4DDCD5DD26D14F3754BD44E /* Pods-usc-films-cp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-usc-films-cp.release.xcconfig"; path = "Target Support Files/Pods-usc-films-cp/Pods-usc-films-cp.release.xcconfig"; sourceTree = "<group>"; };
 		C4E96AFEBBE6BDD786949017 /* Pods-usc-films-cp-usc-films-cpUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-usc-films-cp-usc-films-cpUITests.debug.xcconfig"; path = "Target Support Files/Pods-usc-films-cp-usc-films-cpUITests/Pods-usc-films-cp-usc-films-cpUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				2B1EED3E262D054F009B1086 /* MainTabView.swift */,
 				2B1EED43262D055E009B1086 /* DetailsView.swift */,
 				2B1EED48262D056B009B1086 /* SearchView.swift */,
+				2BC89921262E44F5008F39E6 /* ReviewView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				2B1EED30262D0517009B1086 /* HomeView.swift in Sources */,
 				2B1EED3A262D053B009B1086 /* MainSlideView.swift in Sources */,
 				2B1EED49262D056B009B1086 /* SearchView.swift in Sources */,
+				2BC89922262E44F5008F39E6 /* ReviewView.swift in Sources */,
 				2B1EED62262D05B8009B1086 /* DetailsDownloader.swift in Sources */,
 				2B1EED6C262D05DA009B1086 /* MoviesD.swift in Sources */,
 				2B1EED58262D059A009B1086 /* myURLs.swift in Sources */,
