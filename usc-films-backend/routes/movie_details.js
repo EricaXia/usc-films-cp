@@ -86,17 +86,6 @@ movieDetailsRouter.get("/", (req, res) => {
 
         const cast2 = responses[2].data.cast;
         details2["cast"] = cast2.slice(0, 10);
-        // let cast3 = [];
-        // for (var i = 0; i < cast2.length; i++) {
-        //   if (cast2[i]["profile_path"]) {
-        //     cast2[i]["img_path"] = "https://image.tmdb.org/t/p/w500" + cast2[i]["profile_path"];
-        //     cast3.push({
-        //       "img_path": cast2[i]["img_path"],
-        //       "name": cast2[i]["name"],
-        //       "id": cast2[i]["id"]
-        //     });
-        //   }
-        // }
 
         const reviews2 = responses[3].data.results;
 
@@ -108,8 +97,9 @@ movieDetailsRouter.get("/", (req, res) => {
         }
         details2["reviews"] = reviews2.slice(0, 3);
 
-        const recs2 = responses[4].data;
-        details2["recs"] = recs2;
+        const recs2 = responses[4].data.results;
+        const recs3 = recs2.map(({ id, title, poster_path }) => ({ id, title, poster_path }));
+        details2["recs"] = recs3;
 
         res.json({
           results: [details2]

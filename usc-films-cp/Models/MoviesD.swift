@@ -67,9 +67,28 @@ struct MovieD: Codable, Identifiable {
             guard let star_rating = star_rating else { return "" }
             return "\(star_rating)"
         }
-        
     }
     var reviews: [ReviewItem]
+    
+    struct RecItem: Codable, Identifiable {
+        var id: Int?
+        var title: String?
+        var titleStr: String {
+            guard let title = title else { return "" }
+            return "\(title)"
+        }
+        var poster_path: String?
+        var PosterPath: String {
+            if let path = poster_path {
+                return "https://image.tmdb.org/t/p/w500/\(path)"
+            } else {
+                return ""
+            }
+        }
+    }
+    var recs: [RecItem]
+    
+    
     
     var videoIdStr: String {
         guard let video_id = video_id else { return "" }

@@ -132,6 +132,14 @@ struct DetailsView: View {
                                 }
                             }
                             // RECOMMENDED CAROUSEL
+                            if let recsArr = movieDetails.recs {
+                                VStack(alignment: .leading) {
+                                Text("Recommended Movies").font(.title2).fontWeight(.bold).padding(.bottom, 0.0)
+                                }
+                                
+                                
+                            }
+                            
                             
                         }
                         // ends the ScrollView
