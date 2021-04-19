@@ -25,6 +25,7 @@ struct YTWrapper : UIViewRepresentable {
 
 struct DetailsView: View {
     @State var isDelay = false
+    @State var showMoreText = true
     
     @ObservedObject var detailsDownloader: DetailsDownloader
     
@@ -40,23 +41,34 @@ struct DetailsView: View {
             if (isDelay) {
                 if let movieDetails = detailsDownloader.movieD.first {
                     ScrollView {
-                            VStack {
+                            VStack(alignment: .leading, spacing: 10) {
                             YTWrapper(videoID: movieDetails.videoIdStr).frame(width: 350, height: 200)
                             Text(movieDetails.titleStr)
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .multilineTextAlignment(.leading)
-                                // TODO: put more details here
-                            Text(movieDetails.yearStr).multilineTextAlignment(.leading)
-                            Text(movieDetails.overviewStr).multilineTextAlignment(.leading)
-                        }
+                            Text("\(movieDetails.yearStr) | GENRES here")
+                                HStack {
+                                    Image(systemName: "star.fill").foregroundColor(.red)
+                                    Text("\(movieDetails.starRatingStr)/5.0").fontWeight(.medium)
+                                }
+                            
+                            Group {
+                                Text(movieDetails.overviewStr)
+                                    .font(.footnote)
+                                    .fontWeight(.medium)
+                                    .frame(width: 350)
+                                    .lineLimit( showMoreText ? 3: nil)
+                                Button(action: { self.showMoreText.toggle()} ) { Text("Show More...").font(.footnote).fontWeight(.medium).foregroundColor(Color.gray) }.padding(.leading, 250)
+                            }
+                        
                         // CAST
                         castView
                         // REVIEWS
                         reviewsView
                         // RECOMMENDED
                         recView
-                    // ends the ScrollView
+                        }
+                        // ends the ScrollView
                     }.padding()
                 } else {
                     Text("Loading...")
@@ -69,7 +81,7 @@ struct DetailsView: View {
             detailsDownloader.getMovieDetails()
             print("Details downloaded in view")
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
-                print(detailsDownloader.movieD) // this WORKS
+                //                print(detailsDownloader.movieD) // this WORKS
                 self.isDelay = true;
             }
         }
@@ -77,23 +89,27 @@ struct DetailsView: View {
     
     
     
+    
+    
+    
+    
     private var castView: some View {
-
+        
         HStack {
-            Text("Cast & Crew").font(.title2)
+            Text("Cast & Crew").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
         }.padding(.vertical)
-
+        
     }
     
     private var reviewsView: some View {
         HStack {
-            Text("Reviews")
+            Text("Reviews").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
         }.padding(.vertical)
     }
     
     private var recView: some View {
         HStack {
-            Text("Recommended Movies")
+            Text("Recommended Movies").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
         }.padding(.vertical)
     }
     

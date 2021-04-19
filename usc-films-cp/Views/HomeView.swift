@@ -14,6 +14,7 @@ struct HomeView: View {
     @Environment(\.openURL) var openURL
     
     @State private var showTVShows = false
+    @State var isDelay = false
     
     @ObservedObject var downloader = Downloader()
     
@@ -22,6 +23,7 @@ struct HomeView: View {
         downloader.getNowPlaying()
         downloader.getTopRatedMovies()
         downloader.getPopularMovies()
+
         
         print("Download TV shows")
         downloader.getAiringToday()
@@ -97,8 +99,8 @@ struct HomeView: View {
                                     }
                                 }
                                 .frame(height: 280, alignment: .center)
-                            }
-                        }.padding(.vertical)
+                            
+                        }.padding(.vertical)}
                         
                         
                         Spacer()
