@@ -1,0 +1,24 @@
+PODS:
+  - Alamofire (5.4.2)
+  - Kingfisher (6.2.1)
+  - youtube-ios-player-helper (1.0.3)
+
+DEPENDENCIES:
+  - Alamofire (~> 5.4.2)
+  - Kingfisher (~> 6.2.1)
+  - youtube-ios-player-helper (~> 1.0.3)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Kingfisher
+    - youtube-ios-player-helper
+
+SPEC CHECKSUMS:
+  Alamofire: bfbc4c2fe5909b1d94fb4ef2277c6b3727ef5dae
+  Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
+  youtube-ios-player-helper: 0185c57db23c80d63d6ca11251d110abb8a4ca61
+
+PODFILE CHECKSUM: cb46f91d91a710118992b6f723fc7867e436e963
+
+COCOAPODS: 1.10.1

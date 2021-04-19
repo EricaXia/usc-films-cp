@@ -1,0 +1,6 @@
+framework module Pods_usc_films_cp_usc_films_cpUITests {
+  umbrella header "Pods-usc-films-cp-usc-films-cpUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
