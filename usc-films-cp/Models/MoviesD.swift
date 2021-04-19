@@ -45,12 +45,31 @@ struct MovieD: Codable, Identifiable {
     }
     var cast: [CastMember]
     
-//    struct ReviewItem: Codable {
-//        var author: String?
-//        var content: String?
-//        var review_date: String?
-//        var star_rating: Double?
-//    }
+    struct ReviewItem: Codable, Identifiable {
+        var id: String?
+        var author: String?
+        var authorStr: String {
+            guard let author = author else { return "" }
+            return "\(author)"
+        }
+        var content: String?
+        var contentStr: String {
+            guard let content = content else { return "" }
+            return "\(content)"
+        }
+        var review_date: String?
+        var reviewDateStr: String {
+            guard let review_date = review_date else { return "" }
+            return "\(review_date)"
+        }
+        var star_rating: Double?
+        var starRatingReviewStr: String {
+            guard let star_rating = star_rating else { return "" }
+            return "\(star_rating)"
+        }
+        
+    }
+    var reviews: [ReviewItem]
     
     var videoIdStr: String {
         guard let video_id = video_id else { return "" }
