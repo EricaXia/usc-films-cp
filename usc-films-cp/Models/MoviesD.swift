@@ -30,13 +30,20 @@ struct MovieD: Codable, Identifiable {
     var star_rating: Double?
     var overview: String?
     
-//    struct CastMember: Codable {
-//        var name: String?
-//        var id: Int?
-//        var img_path: String?
-//    }
-//
-//    var cast: [CastMember]
+    struct CastMember: Codable, Identifiable {
+        var id: Int? // NEED this in order to be identifiable type
+        var name: String?
+        var nameStr: String {
+            guard let name = name else { return "" }
+            return "\(name)"
+        }
+        var profile_path: String?
+        var imgPath: String {
+            guard let profile_path = profile_path else { return "" }
+            return "https://image.tmdb.org/t/p/w500\(profile_path)"
+        }
+    }
+    var cast: [CastMember]
     
 //    struct ReviewItem: Codable {
 //        var author: String?

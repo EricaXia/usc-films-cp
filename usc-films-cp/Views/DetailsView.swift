@@ -60,9 +60,14 @@ struct DetailsView: View {
                                     .lineLimit( showMoreText ? 3: nil)
                                 Button(action: { self.showMoreText.toggle()} ) { Text("Show More...").font(.footnote).fontWeight(.medium).foregroundColor(Color.gray) }.padding(.leading, 250)
                             }
+                                if let castArr = movieDetails.cast {
+                                    Text("Cast & Crew").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                    ForEach(castArr) {
+                                        castMember in Text(castMember.nameStr)
+                                    }
+                                }
                         
-                        // CAST
-                        castView
+                                
                         // REVIEWS
                         reviewsView
                         // RECOMMENDED
@@ -88,18 +93,21 @@ struct DetailsView: View {
     }
     
     
+
     
-    
-    
-    
-    
-    private var castView: some View {
-        
-        HStack {
-            Text("Cast & Crew").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-        }.padding(.vertical)
-        
-    }
+//    private var castView: some View {
+//        VStack {
+//            Text("Cast & Crew").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+//            List {
+//                ForEach(movieDetails.cast) {
+//                    castmember in {
+//                        Text(castmember.name)
+//                    }
+//                }
+//            }
+//        }.padding(.vertical)
+//
+//    }
     
     private var reviewsView: some View {
         HStack {
