@@ -46,7 +46,7 @@ struct DetailsView: View {
                             Text(movieDetails.titleStr)
                                 .font(.title)
                                 .fontWeight(.bold)
-                            Text("\(movieDetails.yearStr) | GENRES here")
+                                Text("\(movieDetails.yearStr) | \(movieDetails.genresStr)")
                                 HStack {
                                     Image(systemName: "star.fill").foregroundColor(.red)
                                     Text("\(movieDetails.starRatingStr)/5.0").fontWeight(.medium)

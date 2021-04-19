@@ -51,13 +51,8 @@ movieDetailsRouter.get("/", (req, res) => {
 
   const options = {
     year: 'numeric',
-    // month: 'long',
     month: 'short',
     day: 'numeric'
-    // ,hour: '2-digit',
-    // minute: 'numeric',
-    // second: 'numeric',
-    // hour12: true
   };
 
 
@@ -71,6 +66,14 @@ movieDetailsRouter.get("/", (req, res) => {
 
         details2["year"] = details2["release_date"].split("-")[0];
         details2["star_rating"] = details2["vote_average"] / 2;
+        
+        const genres_list = []
+        if (details2["genres"].length > 0) {
+          for (var i = 0; i < details2["genres"].length; i++) {
+            genres_list.push(details2["genres"][i]["name"])
+          }
+        }
+        details2["genres_str"] = genres_list.join(", ");
 
         const video2 = responses[1].data;
 
@@ -109,7 +112,7 @@ movieDetailsRouter.get("/", (req, res) => {
         details2["recs"] = recs2;
 
         res.json({
-          results: [details2]        
+          results: [details2]
         });
       })
     )

@@ -26,14 +26,8 @@ struct MovieD: Codable, Identifiable {
     }
     
     var video_id: String?
-
-//    struct Genre: Codable {
-//        var name: String?
-//    }
-//    var genres: [Genre]
-
+    var genres_str: String?
     var star_rating: Double?
-    
     var overview: String?
     
 //    struct CastMember: Codable {
@@ -66,6 +60,10 @@ struct MovieD: Codable, Identifiable {
     var yearStr: String {
         guard let year = year else { return "" }
         return "\(year)"
+    }
+    var genresStr: String {
+        guard let genres_str = genres_str else { return "" }
+        return "\(genres_str)"
     }
     var starRatingStr: String {
         guard let star_rating = star_rating else { return "" }
