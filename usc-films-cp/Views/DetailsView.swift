@@ -159,7 +159,9 @@ struct DetailsView: View {
                                                             KFImage(URL(string: rec.PosterPath))
                                                                 .resizable()
                                                                 .placeholder{
-                                                                    Image("movie_placeholder").scaledToFit()
+                                                                    Image("movie_placeholder")
+                                                                        .resizable()
+                                                                        .scaledToFit()
                                                                 }
                                                                 .frame(width: 100, height: 150)
                                                                 .cornerRadius(10)
