@@ -46,7 +46,10 @@ struct DetailsView: View {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 10) {
                             // VIDEO TRAILER
-                            YTWrapper(videoID: movieDetails.videoIdStr).frame(width: 350, height: 200)
+                            if !movieDetails.videoIdStr.isEmpty {
+                                YTWrapper(videoID: movieDetails.videoIdStr).frame(width: 350, height: 200)
+                            }
+                            
                             // TEXT DETAILS
                             Text(movieDetails.titleStr)
                                 .font(.title)
@@ -73,10 +76,13 @@ struct DetailsView: View {
                                         ForEach(castArr) {
                                             castMember in
                                             VStack(alignment: .center, spacing: 0) {
-                                                KFImage(URL(string: castMember.imgPath)!)
+                                                KFImage(URL(string: castMember.imgPath))
                                                     .resizable()
                                                     .placeholder{
-                                                        Image("cast_placeholder").scaledToFit()
+                                                        Image("cast_placeholder")                                        .aspectRatio(contentMode: .fit)
+                                                            .frame(width: 90)
+                                                            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                                                            .shadow(radius: 1)
                                                     }
                                                     .aspectRatio(contentMode: .fit)
                                                     .frame(width: 90)
@@ -98,7 +104,8 @@ struct DetailsView: View {
                             // REVIEWS
                             
                             if let reviewsArr = movieDetails.reviews {
-                                Text("Reviews").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                                if !reviewsArr.isEmpty {
+                                    Text("Reviews").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                                 
                                 ForEach(0..<reviewsArr.count) {
                                     i in
@@ -128,36 +135,33 @@ struct DetailsView: View {
                                     )
                                     
                                     
-                                    
+                                }
                                 }
                             }
                             // RECOMMENDED CAROUSEL
                             if let recsArr = movieDetails.recs {
-                                VStack(alignment: .leading) {
-                                Text("Recommended Movies").font(.title2).fontWeight(.bold).padding(.bottom, 0.0)
-                                    ScrollView(.horizontal, showsIndicators: true) {
-                                        HStack(alignment: .top, spacing: 22) {
-                                            ForEach(recsArr) {
-                                                rec in
-                                                VStack {
-                                                    KFImage(URL(string: rec.PosterPath)!)
-                                                        .resizable()
-                                                        .placeholder{
-                                                            Image("movie_placeholder").scaledToFit()
-                                                        }
-                                                        .frame(width: 100, height: 150)
-                                                        .cornerRadius(10)
+                                if !recsArr.isEmpty {
+                                    VStack(alignment: .leading) {
+                                        Text("Recommended Movies").font(.title2).fontWeight(.bold).padding(.bottom, 0.0)
+                                        ScrollView(.horizontal, showsIndicators: true) {
+                                            HStack(alignment: .top, spacing: 22) {
+                                                ForEach(recsArr) {
+                                                    rec in
+                                                    VStack {
+                                                        KFImage(URL(string: rec.PosterPath))
+                                                            .resizable()
+                                                            .placeholder{
+                                                                Image("movie_placeholder").scaledToFit()
+                                                            }
+                                                            .frame(width: 100, height: 150)
+                                                            .cornerRadius(10)
+                                                    }
+                                                    
                                                 }
-                                                
                                             }
                                         }
-                                    }
-                                }
-                                
-                                
+                                    }}
                             }
-                            
-                            
                         }
                         // ends the ScrollView
                     }.padding()
