@@ -36,17 +36,78 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             if showTVShows {
-                // TV Shows content
-                List {
-                    ForEach(downloader.tvshows) {
-                        movie in NavigationLink(
-                            destination: Text(movie.titleStr)) {
-                            Text(movie.titleStr)
-                            Text(movie.yearStr)
+                // TV SHOWS content
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack {
+                        HStack {
+                            Text("USC Films")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("Airing Today")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        
+                        
+                        VStack(alignment:.center) {
+                            HStack {
+                                GeometryReader { proxy in
+                                    MainSlideView(numSlides: 5) {
+                                        ForEach(downloader.tvshows) { movie in
+                                            NavigationLink(destination: DetailsView(movie: movie)){
+                                                ZStack {
+                                                    KFImage(URL(string: movie.PosterPath)!)
+                                                        .blur(radius: 25)
+                                                        .resizable()
+                                                        .frame(width: proxy.size.width * 0.98, height: proxy.size.height)
+                                                        .scaledToFill()
+                                                        .clipped()
+                                                        .opacity(0.8)
+                                                    
+                                                    KFImage(URL(string: movie.PosterPath)!)
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+                                                        .clipped()
+                                                    
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                .frame(height: 280, alignment: .center)
+                                
+                            }.padding(.vertical)}
+                        
+                        
+                        Spacer()
+                        
+                        //Carousels
+                        
+                        VStack(alignment: .leading) {
+                            topRatedMovies
+                            Spacer()
+                            popularMovies
+                        }
+                        
+                        VStack(alignment: .center) {
+                            
+                            Link(destination: URL(string: "https://www.themoviedb.org/")!, label: {
+                                Text("Powered by TMDB \nDeveloped by Erica Xia")                     .font(.footnote)
+                                    .foregroundColor(Color.gray)
+                                    .multilineTextAlignment(.center)
+                            })
                         }
                     }
-                }
-                
+                    
+                    
+                    Spacer()
+                }.padding()
+
                 // Nav Bar items
                 .navigationBarTitle("USC Films", displayMode: .inline)
                 .toolbar {
@@ -55,7 +116,7 @@ struct HomeView: View {
                     }}
             } else {
                 
-                // Movies content
+                // MOVIES CONTENT
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack {
                         HStack {
