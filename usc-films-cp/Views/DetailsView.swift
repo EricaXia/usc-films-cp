@@ -66,7 +66,10 @@ struct DetailsView: View {
                                     .fontWeight(.medium)
                                     .frame(width: 350)
                                     .lineLimit( showMoreText ? 3: nil)
-                                Button(action: { self.showMoreText.toggle()} ) { Text("Show More...").font(.footnote).fontWeight(.medium).foregroundColor(Color.gray) }.padding(.leading, 250)
+                                Button(action: { self.showMoreText.toggle()} )
+                                    {Text(self.showMoreText ? "Show More" : "Show Less").font(.footnote).fontWeight(.medium).foregroundColor(Color.gray)}
+                                    //                                    { Text("Show More...").font(.footnote).fontWeight(.medium).foregroundColor(Color.gray) }
+                                    .padding(.leading, 250)
                             }
                             // CAST
                             if let castArr = movieDetails.cast {
@@ -106,36 +109,36 @@ struct DetailsView: View {
                             if let reviewsArr = movieDetails.reviews {
                                 if !reviewsArr.isEmpty {
                                     Text("Reviews").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                                
-                                ForEach(0..<reviewsArr.count) {
-                                    i in
-                                    NavigationLink(destination: ReviewView(movie: movie, review_num: i)){
-                                        
-                                        VStack(alignment: .leading, spacing: 10) {
+                                    
+                                    ForEach(0..<reviewsArr.count) {
+                                        i in
+                                        NavigationLink(destination: ReviewView(movie: movie, review_num: i)){
                                             
-                                            Text("A review by \(reviewsArr[i].authorStr)").fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
-                                            Text("Written by \(reviewsArr[i].authorStr) on \(reviewsArr[i].reviewDateStr)").foregroundColor(.gray).padding(EdgeInsets(top: -10, leading: 10, bottom: 2, trailing: 10))
-                                            HStack {
-                                                Image(systemName: "star.fill").foregroundColor(.red).padding(.leading, 10.0)
-                                                Text("\(reviewsArr[i].starRatingReviewStr)/5.0").fontWeight(.medium)
+                                            VStack(alignment: .leading, spacing: 10) {
+                                                
+                                                Text("A review by \(reviewsArr[i].authorStr)").fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
+                                                Text("Written by \(reviewsArr[i].authorStr) on \(reviewsArr[i].reviewDateStr)").foregroundColor(.gray).padding(EdgeInsets(top: -10, leading: 10, bottom: 2, trailing: 10))
+                                                HStack {
+                                                    Image(systemName: "star.fill").foregroundColor(.red).padding(.leading, 10.0)
+                                                    Text("\(reviewsArr[i].starRatingReviewStr)/5.0").fontWeight(.medium)
+                                                }
+                                                
+                                                Text(reviewsArr[i].contentStr)
+                                                    .fontWeight(.medium)
+                                                    .frame(width: 350)
+                                                    .lineLimit(4)
+                                                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 2))
+                                                
+                                                
                                             }
-                                            
-                                            Text(reviewsArr[i].contentStr)
-                                                .fontWeight(.medium)
-                                                .frame(width: 350)
-                                                .lineLimit(4)
-                                                .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 2))
-                                            
-                                            
                                         }
+                                        .buttonStyle(PlainButtonStyle())
+                                        .cornerRadius(10)
+                                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(.gray), lineWidth: 1)
+                                        )
+                                        
+                                        
                                     }
-                                    .buttonStyle(PlainButtonStyle())
-                                    .cornerRadius(10)
-                                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(.gray), lineWidth: 1)
-                                    )
-                                    
-                                    
-                                }
                                 }
                             }
                             // RECOMMENDED CAROUSEL
