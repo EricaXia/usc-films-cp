@@ -153,15 +153,18 @@ struct DetailsView: View {
                                             HStack(alignment: .top, spacing: 22) {
                                                 ForEach(recsArr) {
                                                     rec in
-                                                    VStack {
-                                                        KFImage(URL(string: rec.PosterPath))
-                                                            .resizable()
-                                                            .placeholder{
-                                                                Image("movie_placeholder").scaledToFit()
-                                                            }
-                                                            .frame(width: 100, height: 150)
-                                                            .cornerRadius(10)
-                                                    }
+                                                    // NAVIGATION LINK HERE
+                                                    NavigationLink(destination: DetailsView(movie: rec)) {
+                                                        VStack {
+                                                            KFImage(URL(string: rec.PosterPath))
+                                                                .resizable()
+                                                                .placeholder{
+                                                                    Image("movie_placeholder").scaledToFit()
+                                                                }
+                                                                .frame(width: 100, height: 150)
+                                                                .cornerRadius(10)
+                                                        }
+                                                    } //end NavLink
                                                     
                                                 }
                                             }
@@ -192,7 +195,7 @@ struct DetailsView: View {
                     Button {
                         print("Add to watchList")
                     } label: {
-                                Image(systemName: "bookmark").imageScale(.small)
+                        Image(systemName: "bookmark").imageScale(.small)
                     }.buttonStyle(PlainButtonStyle())
                     Button {
                         print("Share on Facebook")
@@ -201,13 +204,13 @@ struct DetailsView: View {
                         Image("facebook")
                             .resizable()
                             .frame(width: 16.0, height: 16.0)
-                            
+                        
                     }
-
+                    
                     Button {
                         print("Share on Twitter")
                         openURL(URL(string: "https://www.twitter.com/intent/tweet?text=Check%20out%20this%20link:%20https://www.themoviedb.org/movie/\(movie.idStr)&hashtags=CSCI571USCFilms")!)
-
+                        
                     } label: {
                         Image("twitter")
                             .resizable()
