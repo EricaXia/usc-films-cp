@@ -83,7 +83,9 @@ struct DetailsView: View {
                                                 KFImage(URL(string: castMember.imgPath))
                                                     .resizable()
                                                     .placeholder{
-                                                        Image("cast_placeholder")                                        .aspectRatio(contentMode: .fit)
+                                                        Image("cast_placeholder")
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fill)
                                                             .frame(width: 90)
                                                             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                                                             .shadow(radius: 1)
