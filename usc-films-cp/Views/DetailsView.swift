@@ -25,6 +25,7 @@ struct YTWrapper : UIViewRepresentable {
 }
 
 struct DetailsView: View {
+    @Environment(\.openURL) var openURL
     // Time delay to wait for load data
     @State var isDelay = false
     // Show More toggle for Overview text
@@ -193,7 +194,7 @@ struct DetailsView: View {
                     }.buttonStyle(PlainButtonStyle())
                     Button {
                         print("Share on Facebook")
-                        //                openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movieD.idStr)")!)
+                        openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movie.idStr)")!)
                     } label: {
                         Image("facebook")
                             .resizable()
@@ -203,7 +204,7 @@ struct DetailsView: View {
 
                     Button {
                         print("Share on Twitter")
-                        //                openURL(URL(string: "https://www.twitter.com/intent/tweet?text=Check%20out%20this%20link:%20https://www.themoviedb.org/movie/\(movieD.idStr)&hashtags=CSCI571USCFilms")!)
+                        openURL(URL(string: "https://www.twitter.com/intent/tweet?text=Check%20out%20this%20link:%20https://www.themoviedb.org/movie/\(movie.idStr)&hashtags=CSCI571USCFilms")!)
 
                     } label: {
                         Image("twitter")
