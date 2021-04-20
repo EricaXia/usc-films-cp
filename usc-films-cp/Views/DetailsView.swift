@@ -183,6 +183,39 @@ struct DetailsView: View {
                 self.isDelay = true;
             }
         }
+        .toolbar {
+            ToolbarItemGroup() {
+                HStack {
+                    Button {
+                        print("Add to watchList")
+                    } label: {
+                                Image(systemName: "bookmark").imageScale(.small)
+                    }
+                    Button {
+                        print("Share on Facebook")
+                        //                openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movieD.idStr)")!)
+                    } label: {
+                        Image("facebook")
+                            .resizable()
+                            .frame(width: 16.0, height: 16.0)
+                            
+                    }
+
+                    Button {
+                        print("Share on Twitter")
+                        //                openURL(URL(string: "https://www.twitter.com/intent/tweet?text=Check%20out%20this%20link:%20https://www.themoviedb.org/movie/\(movieD.idStr)&hashtags=CSCI571USCFilms")!)
+
+                    } label: {
+                        Image("twitter")
+                            .resizable()
+                            .frame(width: 16.0, height: 16.0)
+                    }
+                    
+                    
+                }
+                
+                
+            }}
     }
 }
 
