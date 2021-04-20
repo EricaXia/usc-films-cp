@@ -23,7 +23,7 @@ struct HomeView: View {
         downloader.getNowPlaying()
         downloader.getTopRatedMovies()
         downloader.getPopularMovies()
-
+        
         
         print("Download TV shows")
         downloader.getAiringToday()
@@ -99,8 +99,8 @@ struct HomeView: View {
                                     }
                                 }
                                 .frame(height: 280, alignment: .center)
-                            
-                        }.padding(.vertical)}
+                                
+                            }.padding(.vertical)}
                         
                         
                         Spacer()
@@ -109,8 +109,8 @@ struct HomeView: View {
                         
                         VStack(alignment: .leading) {
                             topRatedMovies
-                            //                            Spacer()
-                            //                            popularMovies
+                            Spacer()
+                            popularMovies
                         }
                         
                         VStack(alignment: .center) {
@@ -157,7 +157,9 @@ struct HomeView: View {
                                 KFImage(URL(string: movie.PosterPath)!)
                                     .resizable()
                                     .placeholder{
-                                        Image("movie_placeholder").scaledToFit()
+                                        Image("movie_placeholder")
+                                            .resizable()
+                                            .scaledToFit()
                                     }
                                     .frame(width: 100, height: 150)
                                     .cornerRadius(10)
@@ -208,29 +210,34 @@ struct HomeView: View {
             ScrollView(.horizontal, showsIndicators: true) {
                 HStack(alignment: .top, spacing: 22) {
                     ForEach(downloader.movies_popular) {
-                        movie in VStack {
-                            KFImage(URL(string: movie.PosterPath)!)
-                                .resizable()
-                                .placeholder{
-                                    Image("movie_placeholder").scaledToFit()
-                                }
-                                .frame(width: 100, height: 150)
-                                .cornerRadius(10)
-                            Text(movie.titleStr)
-                                .font(.footnote)
-                                .fontWeight(.bold)
-                                .multilineTextAlignment(.center)
-                                .frame(width: 105.0)
-                                .fixedSize(horizontal: false, vertical: true)
-                            Text(movie.yearStr)
-                                .font(.footnote)
-                                .foregroundColor(Color.gray)
-                                .multilineTextAlignment(.center)
+                        movie in
+                        NavigationLink(destination: DetailsView(movie: movie)){
+                            VStack {
+                                KFImage(URL(string: movie.PosterPath)!)
+                                    .resizable()
+                                    .placeholder{
+                                        Image("movie_placeholder")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
+                                    .frame(width: 100, height: 150)
+                                    .cornerRadius(10)
+                                Text(movie.titleStr)
+                                    .font(.footnote)
+                                    .fontWeight(.bold)
+                                    .multilineTextAlignment(.center)
+                                    .frame(width: 105.0)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Text(movie.yearStr)
+                                    .font(.footnote)
+                                    .foregroundColor(Color.gray)
+                                    .multilineTextAlignment(.center)
+                            }
                         }
+                        .buttonStyle(PlainButtonStyle())
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu {
                             Button{
-                                // TODO: implement WL
                                 print("Add to watchList")
                             } label: {
                                 Label("Add to watchList", systemImage: "bookmark")
