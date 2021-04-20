@@ -190,7 +190,7 @@ struct DetailsView: View {
                         print("Add to watchList")
                     } label: {
                                 Image(systemName: "bookmark").imageScale(.small)
-                    }
+                    }.buttonStyle(PlainButtonStyle())
                     Button {
                         print("Share on Facebook")
                         //                openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movieD.idStr)")!)
