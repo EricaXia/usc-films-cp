@@ -41,7 +41,7 @@ struct DetailsView: View {
     }
     
     var body: some View {
-        NavigationView {
+
             Group {
                 if (isDelay) {
                     if let movieDetails = detailsDownloader.movieD.first {
@@ -197,8 +197,7 @@ struct DetailsView: View {
                     self.isDelay = true;
                 }
             } // end onAppear
-        } // ends the NavView
-        
+
         // Correct place - Nav Bar items AFTER Nav View
         .toolbar {
                 HStack {
