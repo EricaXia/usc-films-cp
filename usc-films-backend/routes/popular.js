@@ -19,6 +19,8 @@ popularRouter.get("/", (req, res) => {
                 .map(({ id, title, name, release_date, first_air_date,poster_path }) => ({ id, title, name, release_date, first_air_date, poster_path }));
 
             for (var i = 0; i < popular.length; i++) {
+                popular[i]["media_type"] = media_type;
+
                 if (popular[i]['name']) {
                     popular[i]['title'] = popular[i]['name']
                 }

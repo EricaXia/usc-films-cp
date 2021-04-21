@@ -20,6 +20,8 @@ router.get("/", (req, res) => {
                 .map(({ id, title, release_date, poster_path }) => ({ id, title, release_date, poster_path }));
 
             for (var i = 0; i < now_playing.length; i++) {
+                now_playing[i]["media_type"] = "movie";
+
                 if (now_playing[i]['release_date']) {
                     now_playing[i]['year'] = now_playing[i]['release_date'].split("-")[0];
                 }

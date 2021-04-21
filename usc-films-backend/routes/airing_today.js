@@ -20,6 +20,8 @@ router.get("/", (req, res) => {
                 .map(({ id, name, first_air_date, poster_path }) => ({ id, name, first_air_date, poster_path }));
 
             for (var i = 0; i < airing_today.length; i++) {
+                airing_today[i]["media_type"] = "tv";
+
                 if (airing_today[i]['first_air_date']) {
                     airing_today[i]['year'] = airing_today[i]['first_air_date'].split("-")[0];
                 }

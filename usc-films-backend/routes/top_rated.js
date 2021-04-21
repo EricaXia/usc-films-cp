@@ -19,8 +19,10 @@ topRatedRouter.get("/", (req, res) => {
                 .map(({ id, title, name, release_date, first_air_date,poster_path }) => ({ id, title, name, release_date, first_air_date, poster_path }));
 
             for (var i = 0; i < top_rated.length; i++) {
+                top_rated[i]["media_type"] = media_type;
+
                 if (top_rated[i]['name']) {
-                    top_rated[i]['title'] = top_rated[i]['name']
+                    top_rated[i]['title'] = top_rated[i]['name'];
                 }
 
                 if (top_rated[i]['release_date']) {
@@ -30,6 +32,7 @@ topRatedRouter.get("/", (req, res) => {
                     top_rated[i]['year'] = top_rated[i]['first_air_date'].split("-")[0];
                 }
             }
+            
 
             res.json({
                 results: top_rated
