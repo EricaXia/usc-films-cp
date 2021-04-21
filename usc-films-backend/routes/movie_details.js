@@ -64,6 +64,7 @@ movieDetailsRouter.get("/", (req, res) => {
 
         const details2 = responses[0].data;
 
+        details2["media_type"] = "movie"; // change to TV for TV
         details2["year"] = details2["release_date"].split("-")[0];
         details2["star_rating"] = details2["vote_average"] / 2;
 
