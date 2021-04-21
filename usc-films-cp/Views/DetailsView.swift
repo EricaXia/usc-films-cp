@@ -198,8 +198,11 @@ struct DetailsView: View {
                 }
             } // end onAppear
 
-        // Correct place - Nav Bar items AFTER Nav View
+        // Nav Bar items
+        .navigationBarBackButtonHidden(false)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {Text("")}
+            ToolbarItemGroup {
                 HStack {
                     Button {
                         print("Add to watchList")
@@ -213,9 +216,7 @@ struct DetailsView: View {
                         Image("facebook")
                             .resizable()
                             .frame(width: 16.0, height: 16.0)
-
                     }
-
                     Button {
                         print("Share on Twitter")
                         openURL(URL(string: "https://www.twitter.com/intent/tweet?text=Check%20out%20this%20link:%20https://www.themoviedb.org/movie/\(movie.idStr)&hashtags=CSCI571USCFilms")!)
@@ -225,8 +226,14 @@ struct DetailsView: View {
                             .resizable()
                             .frame(width: 16.0, height: 16.0)
                     }
-                }
+                
+//            ToolbarItem(placement: .navigationBarLeading) {
+//                HStack {}
+//                }
+                    
+            } // ends HStack
+            } // end toolbaritemgroup
         } // ends toolbar
-
+            
     } // ends the body
 }
