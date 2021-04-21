@@ -8,6 +8,25 @@
 import SwiftUI
 import Kingfisher
 
+extension Array: RawRepresentable where Element: Codable {
+    public init?(rawValue: String) {
+        guard let data = rawValue.data(using: .utf8),
+              let result = try? JSONDecoder().decode([Element].self, from: data)
+        else {
+            return nil
+        }
+        self = result
+    }
+
+    public var rawValue: String {
+        guard let data = try? JSONEncoder().encode(self),
+              let result = String(data: data, encoding: .utf8)
+        else {
+            return "[]"
+        }
+        return result
+    }
+}
 
 struct HomeView: View {
     
@@ -15,6 +34,10 @@ struct HomeView: View {
     
     @State private var showTVShows = false
     @State var isDelay = false
+    
+    // For watchlist:
+    @AppStorage("watchlist") var watchlist: [Movie] = []
+
     
     @ObservedObject var downloader = Downloader()
     
@@ -239,11 +262,13 @@ struct HomeView: View {
                         .buttonStyle(PlainButtonStyle())
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu {
+                            // TODO: watchlist featuer
                             Button{
                                 print("Add to watchList")
+                                watchlist.append(movie)
                             } label: {
-                                Label("Add to watchList", systemImage: "bookmark")
-                            }
+                                    Label("Add to watchList", systemImage: "bookmark")
+                                }
                             Button {
                                 print("Share on Facebook")
                                 openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movie.idStr)")!)

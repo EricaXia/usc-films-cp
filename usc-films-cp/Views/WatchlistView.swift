@@ -8,8 +8,25 @@
 import SwiftUI
 
 struct WatchlistView: View {
+    @AppStorage("watchlist") var watchlist: [Movie] = []
+//    let watchlist = UserDefaults.standard.array(forKey: "watchlist")
+    
     var body: some View {
-        Text("watchlsit view")
+        ScrollView {
+            Text("Watchlist view")
+                .font(.title)
+            ForEach(watchlist) {
+                movie in Text(movie.titleStr)
+            }
+        }
+        .onAppear {
+            print("Load watchlist view")
+        }
+
+        
+//        ForEach(wl) {
+//            mov in Text(mov)
+//        }
     }
 }
 
