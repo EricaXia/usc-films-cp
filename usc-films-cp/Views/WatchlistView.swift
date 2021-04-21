@@ -24,9 +24,11 @@ extension Array where Element: Hashable {
 struct WatchlistView: View {
     @AppStorage("watchlist") var watchlist: [Movie] = []
     @State var isWLEmpty = true
-    private var threeColumnGrid = [GridItem(.flexible(), spacing: 2),
-                                   GridItem(.flexible(), spacing: 2),
-                                   GridItem(.flexible(), spacing: 2)]
+    private var threeColumnGrid = [
+        GridItem(.fixed(110), spacing: 4),
+        GridItem(.fixed(110), spacing: 4),
+        GridItem(.fixed(110), spacing: 4)
+    ]
     
     var body: some View {
         ScrollView {
@@ -53,17 +55,17 @@ struct WatchlistView: View {
                     Spacer()
                     
                 }
-                HStack(spacing: 0) {
-                    LazyVGrid(columns: threeColumnGrid, alignment: .center, spacing: 2) {
+                HStack {
+                    LazyVGrid(columns: threeColumnGrid, alignment: .center, spacing: 4) {
                         ForEach(watchlist.removingDuplicates()) {
                             wl_movie in
                             NavigationLink(destination: DetailsView(movie: wl_movie)){
                                 KFImage(URL(string: wl_movie.PosterPath)!)
                                     .resizable()
-                                    .frame(width: 100, height: 150)
+                                    .frame(width: 110, height: 165)
                                     .scaledToFill()
                                     .clipped()
-                                    .padding(.horizontal, -10)
+//                                    .padding(.horizontal, 10)
                             } // end NavLink
                             
                             .contextMenu {
