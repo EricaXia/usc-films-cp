@@ -24,6 +24,9 @@ extension Array where Element: Hashable {
 struct WatchlistView: View {
     @AppStorage("watchlist") var watchlist: [Movie] = []
     @State var isWLEmpty = true
+    private var threeColumnGrid = [GridItem(.flexible(), spacing: 2),
+                                   GridItem(.flexible(), spacing: 2),
+                                   GridItem(.flexible(), spacing: 2)]
     
     var body: some View {
         ScrollView {
@@ -50,29 +53,31 @@ struct WatchlistView: View {
                     Spacer()
                     
                 }
-                HStack {
-
-                        
-                    ForEach(watchlist.removingDuplicates()) {
-                        wl_movie in
-                        NavigationLink(destination: DetailsView(movie: wl_movie)){
-                            KFImage(URL(string: wl_movie.PosterPath)!)
-                                .resizable()
-                                .frame(width: 100, height: 150)
-                                .scaledToFill()
-                                .clipped()
-                        } // end NavLink
-                        .contextMenu {
-                            Button{
-                                print("Remove from watchList")
-                                // TODO drop from watchlist array at specific movie
-                                
-                            } label: {
+                HStack(spacing: 0) {
+                    LazyVGrid(columns: threeColumnGrid, alignment: .center, spacing: 2) {
+                        ForEach(watchlist.removingDuplicates()) {
+                            wl_movie in
+                            NavigationLink(destination: DetailsView(movie: wl_movie)){
+                                KFImage(URL(string: wl_movie.PosterPath)!)
+                                    .resizable()
+                                    .frame(width: 100, height: 150)
+                                    .scaledToFill()
+                                    .clipped()
+                                    .padding(.horizontal, -10)
+                            } // end NavLink
+                            
+                            .contextMenu {
+                                Button{
+                                    print("Remove from watchList")
+                                    // TODO drop from watchlist array at specific movie
+                                } label: {
                                     Label("Remove from watchList", systemImage: "bookmark.fill")
                                 }
+                            }
+                            
                         }
                     }
-                }
+                } // end Hstack
             }
         }
         .onAppear {
