@@ -19,16 +19,4 @@ enum myURLs: String {
     public var urlStr: String {
         "\(Downloader.baseURL)\(self.rawValue)"
     }
-    
-    
-    // for Details page
-    
-//    public var movieURLStr: String {
-//        "\(Downloader.baseURL)/movie\(self.rawValue)"
-//    }
-//
-//    public var tvURLStr: String {
-//        "\(Downloader.baseURL)/tv/\(self.rawValue)"
-//    }
-    
 }

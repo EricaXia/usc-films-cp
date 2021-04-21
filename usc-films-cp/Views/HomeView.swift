@@ -89,9 +89,9 @@ struct HomeView: View {
                         //Carousels
                         
                         VStack(alignment: .leading) {
-                            topRatedMovies
+                            topRatedTv
                             Spacer()
-                            popularMovies
+                            popularTv
                         }
                         
                         VStack(alignment: .center) {
@@ -265,12 +265,130 @@ struct HomeView: View {
         .padding(.bottom, 50)
     }
     
+    private var topRatedTv: some View {
+        VStack(alignment: .leading) {
+            Text("Top Rated").font(.title).fontWeight(.bold).padding(.bottom, 0.0)
+            ScrollView(.horizontal, showsIndicators: true) {
+                HStack(alignment: .top, spacing: 22) {
+                    ForEach(downloader.tvshows_toprated) {
+                        movie in
+                        NavigationLink(destination: DetailsView(movie: movie)){
+                            VStack {
+                                KFImage(URL(string: movie.PosterPath)!)
+                                    .resizable()
+                                    .placeholder{
+                                        Image("movie_placeholder")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
+                                    .frame(width: 100, height: 150)
+                                    .cornerRadius(10)
+                                Text(movie.titleStr)
+                                    .font(.footnote)
+                                    .fontWeight(.bold)
+                                    .multilineTextAlignment(.center)
+                                    .frame(width: 105.0)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Text(movie.yearStr)
+                                    .font(.footnote)
+                                    .foregroundColor(Color.gray)
+                                    .multilineTextAlignment(.center)
+                            }
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .contentShape(RoundedRectangle(cornerRadius: 10))
+                        .contextMenu {
+                            Button{
+                                print("Add to watchList")
+                            } label: {
+                                Label("Add to watchList", systemImage: "bookmark")
+                            }
+                            Button {
+                                print("Share on Facebook")
+                                openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movie.idStr)")!)
+                            } label: {
+                                Label("Share on Facebook", image: "facebook")
+                            }
+                            Button {
+                                print("Share on Twitter")
+                                openURL(URL(string: "https://www.twitter.com/intent/tweet?text=Check%20out%20this%20link:%20https://www.themoviedb.org/movie/\(movie.idStr)&hashtags=CSCI571USCFilms")!)
+                                
+                            } label: {
+                                Label("Share on Twitter", image: "twitter")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .padding(.bottom, 50)
+    }
+    
     private var popularMovies: some View {
         VStack(alignment: .leading) {
             Text("Popular").font(.title).fontWeight(.bold).padding(.bottom, 0.0)
             ScrollView(.horizontal, showsIndicators: true) {
                 HStack(alignment: .top, spacing: 22) {
                     ForEach(downloader.movies_popular) {
+                        movie in
+                        NavigationLink(destination: DetailsView(movie: movie)){
+                            VStack {
+                                KFImage(URL(string: movie.PosterPath)!)
+                                    .resizable()
+                                    .placeholder{
+                                        Image("movie_placeholder")
+                                            .resizable()
+                                            .scaledToFit()
+                                    }
+                                    .frame(width: 100, height: 150)
+                                    .cornerRadius(10)
+                                Text(movie.titleStr)
+                                    .font(.footnote)
+                                    .fontWeight(.bold)
+                                    .multilineTextAlignment(.center)
+                                    .frame(width: 105.0)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Text(movie.yearStr)
+                                    .font(.footnote)
+                                    .foregroundColor(Color.gray)
+                                    .multilineTextAlignment(.center)
+                            }
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .contentShape(RoundedRectangle(cornerRadius: 10))
+                        .contextMenu {
+                            Button{
+                                print("Add to watchList")
+                            } label: {
+                                Label("Add to watchList", systemImage: "bookmark")
+                            }
+                            Button {
+                                print("Share on Facebook")
+                                openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movie.idStr)")!)
+                            } label: {
+                                Label("Share on Facebook", image: "facebook")
+                            }
+                            Button {
+                                print("Share on Twitter")
+                                openURL(URL(string: "https://www.twitter.com/intent/tweet?text=Check%20out%20this%20link:%20https://www.themoviedb.org/movie/\(movie.idStr)&hashtags=CSCI571USCFilms")!)
+                                
+                            } label: {
+                                Label("Share on Twitter", image: "twitter")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .padding(.bottom, 50)
+    }
+    
+    private var popularTv: some View {
+        VStack(alignment: .leading) {
+            Text("Popular").font(.title).fontWeight(.bold).padding(.bottom, 0.0)
+            ScrollView(.horizontal, showsIndicators: true) {
+                HStack(alignment: .top, spacing: 22) {
+                    ForEach(downloader.tvshows_popular) {
                         movie in
                         NavigationLink(destination: DetailsView(movie: movie)){
                             VStack {
