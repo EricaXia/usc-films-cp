@@ -11,8 +11,7 @@ final class DetailsDownloader: ObservableObject{
     @Published var movieD = [MovieD]()
     
     private var movie: Movie
-//    static var baseURL = "http://localhost:8080/apis/watch/"
-    static var baseURL = "http://localhost:8080/apis/watch/movie/"
+    static var baseURL = "http://localhost:8080/apis/watch/"
     
     init(movie: Movie) {
         self.movie = movie
@@ -20,7 +19,6 @@ final class DetailsDownloader: ObservableObject{
     
     func getMovieDetails() {
         print("Get Movie Details")
-        // TODO: change above baseURL & pass in "/movie/" as param to urlString
         getMovieDetailsData(for: movie)
         
     }
@@ -30,7 +28,8 @@ final class DetailsDownloader: ObservableObject{
     }
 
     private func getMovieDetailsData(for movie: Movie) {
-        let urlString = "\(Self.baseURL)\(movie.id ?? 100)"
+        let urlString = "\(Self.baseURL)\(movie.mediaTypeStr)/\(movie.idStr)"
+        print(urlString)
         NetworkManager<MovieDetailsResponse>.fetchData(from: urlString) { (result) in
             switch result {
             case .success(let movieDetailsResponse):

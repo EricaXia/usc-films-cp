@@ -14,6 +14,7 @@ struct MovieDetailsResponse: Codable {
 // structure for Detailed movie
 struct MovieD: Codable, Identifiable {
     var id: Int?
+    var media_type: String?
     var title: String?
     var year: String?
     var poster_path: String?
@@ -70,26 +71,12 @@ struct MovieD: Codable, Identifiable {
     }
     var reviews: [ReviewItem]
     
-//    struct RecItem: Codable, Identifiable {
-//        var id: Int?
-//        var title: String?
-//        var titleStr: String {
-//            guard let title = title else { return "" }
-//            return "\(title)"
-//        }
-//        var poster_path: String?
-//        var PosterPath: String {
-//            if let path = poster_path {
-//                return "https://image.tmdb.org/t/p/w500/\(path)"
-//            } else {
-//                return ""
-//            }
-//        }
-//    }
     var recs: [Movie]
     
-    
-    
+    var mediaTypeStr: String {
+        guard let media_type = media_type else { return "" }
+        return "\(media_type)"
+    }
     var videoIdStr: String {
         guard let video_id = video_id else { return "" }
         return "\(video_id)"

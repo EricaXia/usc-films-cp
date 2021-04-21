@@ -13,6 +13,7 @@ struct MovieResponse: Codable {
 
 struct Movie: Codable, Identifiable {
     var id: Int?
+    var media_type: String?
     var title: String?
     var year: String?
     var poster_path: String?
@@ -22,6 +23,10 @@ struct Movie: Codable, Identifiable {
         } else {
             return ""
         }
+    }
+    var mediaTypeStr: String {
+        guard let media_type = media_type else { return "" }
+        return "\(media_type)"
     }
     var idStr: String {
         guard let id = id else { return "" }
