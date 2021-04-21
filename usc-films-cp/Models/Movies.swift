@@ -11,7 +11,7 @@ struct MovieResponse: Codable {
     var results: [Movie]
 }
 
-struct Movie: Codable, Identifiable {
+struct Movie: Codable, Identifiable, Hashable {
     var id: Int?
     var media_type: String?
     var title: String?

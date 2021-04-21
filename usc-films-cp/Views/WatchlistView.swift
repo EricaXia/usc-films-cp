@@ -6,27 +6,62 @@
 //
 
 import SwiftUI
+import Kingfisher
+
+// Dont show duplicates in watchlsit
+extension Array where Element: Hashable {
+    func removingDuplicates() -> [Element] {
+        var addedDict = [Element: Bool]()
+        return filter {
+            addedDict.updateValue(true, forKey: $0) == nil
+        }
+    }
+    mutating func removeDuplicates() {
+        self = self.removingDuplicates()
+    }
+}
 
 struct WatchlistView: View {
     @AppStorage("watchlist") var watchlist: [Movie] = []
-//    let watchlist = UserDefaults.standard.array(forKey: "watchlist")
+    @State var isWLEmpty = true
     
     var body: some View {
         ScrollView {
-            Text("Watchlist view")
-                .font(.title)
-            ForEach(watchlist) {
-                movie in Text(movie.titleStr)
+            
+            // For testing only
+            Button ("Delete watchlist") {
+                UserDefaults.standard.removeObject(forKey: "watchlist")
+            }
+            
+            
+            if isWLEmpty {
+                Text("Watchlist is empty")
+                    .font(.title2)
+                    .foregroundColor(Color.gray)
+                    .padding(.top, 350.0)
+            }
+            
+            else {
+                HStack {
+                    ForEach(watchlist.removingDuplicates()) {
+                        wl_movie in
+                        NavigationLink(destination: DetailsView(movie: wl_movie)){
+                            KFImage(URL(string: wl_movie.PosterPath)!)
+                                .resizable()
+                                .frame(width: 100, height: 150)
+                                .scaledToFill()
+                                .clipped()
+                        } // end NavLink
+                    }
+                }
             }
         }
         .onAppear {
             print("Load watchlist view")
+            if !watchlist.isEmpty {
+                isWLEmpty = false
+            }
         }
-
-        
-//        ForEach(wl) {
-//            mov in Text(mov)
-//        }
     }
 }
 
