@@ -34,9 +34,11 @@ struct DetailsView: View {
     @ObservedObject var detailsDownloader: DetailsDownloader
     
     var movie: Movie
+    var media_type: String
     
     init(movie: Movie) {
         self.movie = movie
+        self.media_type = movie.mediaTypeStr
         self.detailsDownloader = DetailsDownloader(movie: movie)
     }
     
@@ -149,7 +151,11 @@ struct DetailsView: View {
                                 if let recsArr = movieDetails.recs {
                                     if !recsArr.isEmpty {
                                         VStack(alignment: .leading) {
-                                            Text("Recommended Movies").font(.title2).fontWeight(.bold).padding(.bottom, 0.0)
+                                            if self.media_type == "movie" {
+                                                Text("Recommended Movies").font(.title2).fontWeight(.bold).padding(.bottom, 0.0)
+                                            } else {
+                                                Text("Recommended TV Shows").font(.title2).fontWeight(.bold).padding(.bottom, 0.0)
+                                            }
                                             ScrollView(.horizontal, showsIndicators: true) {
                                                 HStack(alignment: .top, spacing: 22) {
                                                     ForEach(recsArr) {
@@ -172,6 +178,7 @@ struct DetailsView: View {
                                                     }
                                                 }
                                             }
+                                            
                                         }}
                                 }
                             }
@@ -226,11 +233,6 @@ struct DetailsView: View {
                             .resizable()
                             .frame(width: 16.0, height: 16.0)
                     }
-                
-//            ToolbarItem(placement: .navigationBarLeading) {
-//                HStack {}
-//                }
-                    
             } // ends HStack
             } // end toolbaritemgroup
         } // ends toolbar
