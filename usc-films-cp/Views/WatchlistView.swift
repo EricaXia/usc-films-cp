@@ -27,7 +27,6 @@ struct WatchlistView: View {
     
     var body: some View {
         ScrollView {
-            
             // For testing only
             Button ("Delete watchlist") {
                 UserDefaults.standard.removeObject(forKey: "watchlist")
@@ -42,7 +41,18 @@ struct WatchlistView: View {
             }
             
             else {
+                HStack(alignment: .top) {
+                    Text("Watchlist")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                        .padding(.horizontal)
+                    Spacer()
+                    
+                }
                 HStack {
+
+                        
                     ForEach(watchlist.removingDuplicates()) {
                         wl_movie in
                         NavigationLink(destination: DetailsView(movie: wl_movie)){
@@ -52,6 +62,15 @@ struct WatchlistView: View {
                                 .scaledToFill()
                                 .clipped()
                         } // end NavLink
+                        .contextMenu {
+                            Button{
+                                print("Remove from watchList")
+                                // TODO drop from watchlist array at specific movie
+                                
+                            } label: {
+                                    Label("Remove from watchList", systemImage: "bookmark.fill")
+                                }
+                        }
                     }
                 }
             }

@@ -25,6 +25,7 @@ struct YTWrapper : UIViewRepresentable {
 }
 
 struct DetailsView: View {
+    @AppStorage("watchlist") var watchlist: [Movie] = []
     @Environment(\.openURL) var openURL
     // Time delay to wait for load data
     @State var isDelay = false
@@ -213,6 +214,7 @@ struct DetailsView: View {
                 HStack {
                     Button {
                         print("Add to watchList")
+                        watchlist.append(movie)
                     } label: {
                         Image(systemName: "bookmark").imageScale(.small)
                     }.buttonStyle(PlainButtonStyle())

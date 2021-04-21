@@ -262,7 +262,6 @@ struct HomeView: View {
                         .buttonStyle(PlainButtonStyle())
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu {
-                            // TODO: watchlist featuer
                             Button{
                                 print("Add to watchList")
                                 watchlist.append(movie)
@@ -325,6 +324,7 @@ struct HomeView: View {
                         .contextMenu {
                             Button{
                                 print("Add to watchList")
+                                watchlist.append(movie)
                             } label: {
                                 Label("Add to watchList", systemImage: "bookmark")
                             }
@@ -384,6 +384,7 @@ struct HomeView: View {
                         .contextMenu {
                             Button{
                                 print("Add to watchList")
+                                watchlist.append(movie)
                             } label: {
                                 Label("Add to watchList", systemImage: "bookmark")
                             }
@@ -443,6 +444,7 @@ struct HomeView: View {
                         .contextMenu {
                             Button{
                                 print("Add to watchList")
+                                watchlist.append(movie)
                             } label: {
                                 Label("Add to watchList", systemImage: "bookmark")
                             }
