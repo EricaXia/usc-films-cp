@@ -100,6 +100,9 @@ movieDetailsRouter.get("/", (req, res) => {
 
         const recs2 = responses[4].data.results;
         const recs3 = recs2.map(({ id, title, poster_path }) => ({ id, title, poster_path }));
+        for (let i = 0; i < recs3.length; i++) {
+          recs3[i]["media_type"] = "movie"; // change this to TV for TV
+        }
         details2["recs"] = recs3;
 
         res.json({
