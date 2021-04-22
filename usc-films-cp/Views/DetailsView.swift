@@ -198,6 +198,7 @@ struct DetailsView: View {
                 }
                 // ends the Group
             }.onAppear {
+//                print("Details View Loaded")
                 detailsDownloader.getMovieDetails()
                 print("Details downloaded in view")
                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {

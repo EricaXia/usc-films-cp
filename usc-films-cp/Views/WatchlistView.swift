@@ -24,6 +24,7 @@ extension Array where Element: Hashable {
 struct WatchlistView: View {
     @AppStorage("watchlist") var watchlist: [Movie] = []
     @State var isWLEmpty = true
+    @State var watchlist2: [Movie] = []
     private var threeColumnGrid = [
         GridItem(.fixed(110), spacing: 4),
         GridItem(.fixed(110), spacing: 4),
@@ -59,13 +60,15 @@ struct WatchlistView: View {
                     LazyVGrid(columns: threeColumnGrid, alignment: .center, spacing: 4) {
                         ForEach(watchlist.removingDuplicates()) {
                             wl_movie in
-                            NavigationLink(destination: DetailsView(movie: wl_movie)){
-                                KFImage(URL(string: wl_movie.PosterPath)!)
-                                    .resizable()
-                                    .frame(width: 110, height: 165)
-                                    .scaledToFill()
-                                    .clipped()
-//                                    .padding(.horizontal, 10)
+                            NavigationLink(destination: DetailsView(movie: wl_movie)) {
+                                
+                                VStack {
+                                    KFImage(URL(string: wl_movie.PosterPath)!)
+                                        .resizable()
+                                        .frame(width: 110, height: 165)
+                                        .scaledToFill()
+                                        .clipped()
+                                }
                             } // end NavLink
                             
                             .contextMenu {
@@ -84,6 +87,7 @@ struct WatchlistView: View {
         }
         .onAppear {
             print("Load watchlist view")
+            // If there are items saved to WL
             if !watchlist.isEmpty {
                 isWLEmpty = false
             }
