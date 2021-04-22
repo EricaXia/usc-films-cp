@@ -1,7 +1,4 @@
 {
-  "engines": {
-    "node": ">=14.0"
-  },
   "name": "movie-app-server",
   "version": "0.0.0",
   "private": true,
