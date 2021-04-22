@@ -21,7 +21,8 @@ final class Downloader: ObservableObject{
     @Published var movieD = [MovieD]()
 //    @Published var cast = [CastMember]()
     
-    static var baseURL = "http://localhost:8080/apis/"
+//    static var baseURL = "http://localhost:8080/apis/"
+    static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/"
     
     func getNowPlaying() {
         getData(myurls: .nowPlaying)

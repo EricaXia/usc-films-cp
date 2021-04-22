@@ -11,7 +11,8 @@ final class DetailsDownloader: ObservableObject{
     @Published var movieD = [MovieD]()
     
     private var movie: Movie
-    static var baseURL = "http://localhost:8080/apis/watch/"
+//    static var baseURL = "http://localhost:8080/apis/watch/"
+    static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/watch/"
     
     init(movie: Movie) {
         self.movie = movie
