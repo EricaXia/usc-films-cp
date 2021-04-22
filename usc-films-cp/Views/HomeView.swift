@@ -37,8 +37,11 @@ struct HomeView: View {
     
     // For watchlist:
     @AppStorage("watchlist") var watchlist: [Movie] = []
-
+    @State private var isToastShown = false
+    @State private var isMovieOnWL = false
+    @State var btnText = "Add to watchlist"
     
+    // For downloading data
     @ObservedObject var downloader = Downloader()
     
     init() {
@@ -47,13 +50,10 @@ struct HomeView: View {
         downloader.getTopRatedMovies()
         downloader.getPopularMovies()
         
-        
         print("Download TV shows")
         downloader.getAiringToday()
         downloader.getTopRatedTv()
         downloader.getPopularTv()
-        
-        print("downloaded data")
     }
     
     var body: some View {
@@ -221,6 +221,8 @@ struct HomeView: View {
                                 showTVShows.toggle()
                             }}
                 }
+                // TOAST HERE
+                .popup(isPresented: isToastShown, alignment: .center, content: ToastContentView.init)
                 .padding()
             }
             
@@ -264,10 +266,19 @@ struct HomeView: View {
                         .contextMenu {
                             Button{
                                 print("Add to watchList")
+                                self.isToastShown.toggle()
                                 watchlist.append(movie)
-                            } label: {
-                                    Label("Add to watchList", systemImage: "bookmark")
+                                // change variable to isMovieOnWL
+                                if self.isToastShown {
+                                    self.btnText = "Remove from watchlist"
+                                    // TODO: remove movie by checking APPSTORAGE
+                                } else if !self.isToastShown {
+                                    self.btnText = "Add to watchlist"
                                 }
+                            } label: {
+                                Label(self.btnText, systemImage: "bookmark")
+                                }
+                            
                             Button {
                                 print("Share on Facebook")
                                 openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movie.idStr)")!)

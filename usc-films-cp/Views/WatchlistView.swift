@@ -30,12 +30,7 @@ struct WatchlistView: View {
         GridItem(.fixed(110), spacing: 4),
         GridItem(.fixed(110), spacing: 4)
     ]
-    
-    init() {
-        print("init watchlist")
-//        watchlist = watchlist.removingDuplicates()
-    }
-    
+        
     var body: some View {
         ScrollView {
             // For testing only
