@@ -24,17 +24,22 @@ extension Array where Element: Hashable {
 struct WatchlistView: View {
     @AppStorage("watchlist") var watchlist: [Movie] = []
     @State var isWLEmpty = true
-    @State var watchlist2: [Movie] = []
+//    @State var watchlist2: [Movie] = []
     private var threeColumnGrid = [
         GridItem(.fixed(110), spacing: 4),
         GridItem(.fixed(110), spacing: 4),
         GridItem(.fixed(110), spacing: 4)
     ]
     
+    init() {
+        print("init watchlist")
+//        watchlist = watchlist.removingDuplicates()
+    }
+    
     var body: some View {
         ScrollView {
             // For testing only
-            Button ("Delete watchlist") {
+            Button ("[TESTING] Delete watchlist") {
                 UserDefaults.standard.removeObject(forKey: "watchlist")
             }
             
@@ -73,8 +78,10 @@ struct WatchlistView: View {
                             
                             .contextMenu {
                                 Button{
-                                    print("Remove from watchList")
-                                    // TODO drop from watchlist array at specific movie
+                                    print("Removing from watchList")
+                                    if let idx = watchlist.firstIndex(where: { $0 == wl_movie }) {
+                                        watchlist.remove(at: idx)
+                                    }
                                 } label: {
                                     Label("Remove from watchList", systemImage: "bookmark.fill")
                                 }
