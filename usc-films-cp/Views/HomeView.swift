@@ -40,9 +40,15 @@ struct HomeView: View {
     @State private var isToastShown_TR = false
     @State private var isToastShown_Pop = false
     @State private var isMovieOnWL = false
+    @State private var topratedArr = [
+        BoolSelect(isMovieOnWL: false), BoolSelect(isMovieOnWL: false),
+        BoolSelect(isMovieOnWL: false), BoolSelect(isMovieOnWL: false),
+        BoolSelect(isMovieOnWL: false)
+    ]
     @State var btnText = "Add to watchlist"
-    @State var ToastMsg_TR = "Top Rated Movie A"
-    @State var ToastMsg_Pop = "Top Rated Movie B"
+    @State var ToastMsg_TR = ""
+    @State var ToastMsg_Pop = ""
+    
     
     
     // For downloading data
@@ -278,14 +284,28 @@ struct HomeView: View {
                                 
                                 // if movie already found on WL:
                                 if let idx = watchlist.firstIndex(where: { $0 == movie }) {
-                                    self.isMovieOnWL = true
-//                                    self.btnText = "Remove from watchlist"
-                                    // TODO: remove from WL
+                                    
+                                    print("Found movie \(movie.titleStr) on WL")
+                                    
+                                    // Click btn to REMOVE from WL
                                     watchlist.remove(at: idx)
-                                    print("removed from WL")
                                     self.isMovieOnWL = false
                                     
+                                    // show Toast
+                                    withAnimation {
+                                        self.isToastShown_TR = true
+                                    }
+                                    
+                                    
+                                    
+//                                    self.btnText = "Remove from watchlist"
+                                    
+//                                    watchlist.remove(at: idx)
+//                                    print("removed from WL")
+//                                    self.isMovieOnWL = false
+                                    
                                 } else {
+                                    print("Movie \(movie.titleStr) NOT found on WL")
                                 // if the movie is NOT on the WL yet
 //                                if (!self.isMovieOnWL) {
 //                                    self.btnText = "Add to watchlist"
@@ -296,7 +316,7 @@ struct HomeView: View {
                                     }
                                     // Add to WL
                                     watchlist.append(movie)
-                                    print("added to WL")
+                                    print("Added movie \(movie.titleStr) to WL")
                                     self.isMovieOnWL = true
                                     
                                 } //end if
@@ -563,4 +583,9 @@ struct HomeView: View {
             HomeView()
         }
     }
+}
+
+struct BoolSelect: Identifiable {
+    var id = UUID()
+    var isMovieOnWL: Bool
 }
