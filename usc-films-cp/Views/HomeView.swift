@@ -318,15 +318,9 @@ struct HomeView: View {
                             } label: {
                                 HStack {
                                     Text("\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
-                                    Image(systemName: "bookmark")
-                                    
+//                                    Image(systemName: "bookmark")
+                                    Image(systemName: "\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
                                 }
-                                
-                                
-                                //
-                                
-                                //                                Label(Text("\(self.isMovieOnWL ? "Remove from watchList" : "Add to watchList")"), systemImage: "bookmark")
-                                
                             } // WL btn end
                             
                             Button {
