@@ -24,7 +24,6 @@ extension Array where Element: Hashable {
 struct WatchlistView: View {
     @AppStorage("watchlist") var watchlist: [Movie] = []
     @State var isWLEmpty = true
-//    @State var watchlist2: [Movie] = []
     private var threeColumnGrid = [
         GridItem(.fixed(110), spacing: 4),
         GridItem(.fixed(110), spacing: 4),
@@ -33,10 +32,11 @@ struct WatchlistView: View {
         
     var body: some View {
         ScrollView {
+            
             // For testing only
-            Button ("[TESTING] Delete watchlist") {
-                UserDefaults.standard.removeObject(forKey: "watchlist")
-            }
+//            Button ("[TESTING] Delete watchlist") {
+//                UserDefaults.standard.removeObject(forKey: "watchlist")
+//            }
             
             
             if isWLEmpty {
