@@ -60,174 +60,186 @@ struct HomeView: View {
     }
     
     var body: some View {
-        NavigationView {
-            if showTVShows {
-                // TV SHOWS content
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack {
-                        HStack {
-                            Text("USC Films")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        HStack {
-                            Text("Airing Today")
-                                .font(.title)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        
-                        
-                        VStack(alignment:.center) {
+        
+        if (downloader.movies.count == 5) {
+            NavigationView {
+                if showTVShows {
+                    // TV SHOWS content
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack {
                             HStack {
-                                GeometryReader { proxy in
-                                    MainSlideView(numSlides: 5) {
-                                        ForEach(downloader.tvshows) { movie in
-                                            NavigationLink(destination: DetailsView(movie: movie)){
-                                                ZStack {
-                                                    KFImage(URL(string: movie.PosterPath)!)
-                                                        .blur(radius: 25)
-                                                        .resizable()
-                                                        .frame(width: proxy.size.width * 0.98, height: proxy.size.height)
-                                                        .scaledToFill()
-                                                        .clipped()
-                                                        .opacity(0.8)
-                                                    
-                                                    KFImage(URL(string: movie.PosterPath)!)
-                                                        .resizable()
-                                                        .scaledToFit()
-                                                        .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-                                                        .clipped()
-                                                    
+                                Text("USC Films")
+                                    .font(.largeTitle)
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            HStack {
+                                Text("Airing Today")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            
+                            
+                            VStack(alignment:.center) {
+                                HStack {
+                                    GeometryReader { proxy in
+                                        MainSlideView(numSlides: 5) {
+                                            ForEach(downloader.tvshows) { movie in
+                                                NavigationLink(destination: DetailsView(movie: movie)){
+                                                    ZStack {
+                                                        KFImage(URL(string: movie.PosterPath)!)
+                                                            .blur(radius: 25)
+                                                            .resizable()
+                                                            .frame(width: proxy.size.width * 0.98, height: proxy.size.height)
+                                                            .scaledToFill()
+                                                            .clipped()
+                                                            .opacity(0.8)
+                                                        
+                                                        KFImage(URL(string: movie.PosterPath)!)
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+                                                            .clipped()
+                                                        
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                                .frame(height: 280, alignment: .center)
+                                    .frame(height: 280, alignment: .center)
+                                    
+                                } // Vstack end
+                                .padding(.vertical)}
+                            
+                            
+                            Spacer()
+                            
+                            //Carousels
+                            
+                            VStack(alignment: .leading) {
+                                topRatedTv
+                                Spacer()
+                                popularTv
+                            }
+                            
+                            VStack(alignment: .center) {
                                 
-                            }.padding(.vertical)}
+                                Link(destination: URL(string: "https://www.themoviedb.org/")!, label: {
+                                    Text("Powered by TMDB \nDeveloped by Erica Xia")                     .font(.footnote)
+                                        .foregroundColor(Color.gray)
+                                        .multilineTextAlignment(.center)
+                                })
+                            }
+                        }
                         
                         
                         Spacer()
-                        
-                        //Carousels
-                        
-                        VStack(alignment: .leading) {
-                            topRatedTv
-                            Spacer()
-                            popularTv
-                        }
-                        
-                        VStack(alignment: .center) {
-                            
-                            Link(destination: URL(string: "https://www.themoviedb.org/")!, label: {
-                                Text("Powered by TMDB \nDeveloped by Erica Xia")                     .font(.footnote)
-                                    .foregroundColor(Color.gray)
-                                    .multilineTextAlignment(.center)
-                            })
-                        }
-                    }
+                    }.padding()
                     
+                    // Nav Bar items
+                    .navigationBarTitle("USC Films", displayMode: .inline)
+                    .toolbar {
+                        Button("Movies") {
+                            showTVShows.toggle()
+                        }}
+                } else {
                     
-                    Spacer()
-                }.padding()
-                
-                // Nav Bar items
-                .navigationBarTitle("USC Films", displayMode: .inline)
-                .toolbar {
-                    Button("Movies") {
-                        showTVShows.toggle()
-                    }}
-            } else {
-                
-                // MOVIES CONTENT
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack {
-                        HStack {
-                            Text("USC Films")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        HStack {
-                            Text("Now Playing")
-                                .font(.title)
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
+                    // MOVIES CONTENT
+                    ScrollView(.vertical, showsIndicators: false) {
                         
-                        
-                        VStack(alignment:.center) {
+                        VStack {
                             HStack {
-                                GeometryReader { proxy in
-                                    MainSlideView(numSlides: 5) {
-                                        ForEach(downloader.movies) { movie in
-                                            NavigationLink(destination: DetailsView(movie: movie)){
-                                                ZStack {
-                                                    KFImage(URL(string: movie.PosterPath)!)
-                                                        .blur(radius: 25)
-                                                        .resizable()
-                                                        .frame(width: proxy.size.width * 0.98, height: proxy.size.height)
-                                                        .scaledToFill()
-                                                        .clipped()
-                                                        .opacity(0.8)
-                                                    
-                                                    KFImage(URL(string: movie.PosterPath)!)
-                                                        .resizable()
-                                                        .scaledToFit()
-                                                        .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-                                                        .clipped()
-                                                    
+                                Text("USC Films")
+                                    .font(.largeTitle)
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            HStack {
+                                Text("Now Playing")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            
+                            
+                            LazyVStack(alignment:.center) {
+                                HStack {
+                                    GeometryReader { proxy in
+                                        MainSlideView(numSlides: 5) {
+                                            ForEach(downloader.movies) { movie in
+                                                NavigationLink(destination: DetailsView(movie: movie)){
+                                                    ZStack {
+                                                        KFImage(URL(string: movie.PosterPath)!)
+                                                            .blur(radius: 25)
+                                                            .resizable()
+                                                            .frame(width: proxy.size.width * 0.98, height: proxy.size.height)
+                                                            .scaledToFill()
+                                                            .clipped()
+                                                            .opacity(0.8)
+                                                        
+                                                        KFImage(URL(string: movie.PosterPath)!)
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+                                                            .clipped()
+                                                        
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                                .frame(height: 280, alignment: .center)
+                                    .frame(height: 280, alignment: .center)
+                                    
+                                }.padding(.vertical)}
+                            
+                            
+                            Spacer()
+                            
+                            //Carousels
+                            
+                            VStack(alignment: .leading) {
+                                topRatedMovies
+                                Spacer()
+                                popularMovies
                                 
-                            }.padding(.vertical)}
+                            }
+                            
+                            VStack(alignment: .center) {
+                                
+                                Link(destination: URL(string: "https://www.themoviedb.org/")!, label: {
+                                    Text("Powered by TMDB \nDeveloped by Erica Xia")                     .font(.footnote)
+                                        .foregroundColor(Color.gray)
+                                        .multilineTextAlignment(.center)
+                                })
+                            }
+                            
+                            
+                        }
                         
                         
                         Spacer()
-                        
-                        //Carousels
-                        
-                        VStack(alignment: .leading) {
-                            topRatedMovies
-                            Spacer()
-                            popularMovies
+                            // Adds padding and Nav Bar
                             
-                        }
-                        
-                        VStack(alignment: .center) {
+                            // TODO: only show the USC Films title when scrolling down?
                             
-                            Link(destination: URL(string: "https://www.themoviedb.org/")!, label: {
-                                Text("Powered by TMDB \nDeveloped by Erica Xia")                     .font(.footnote)
-                                    .foregroundColor(Color.gray)
-                                    .multilineTextAlignment(.center)
-                            })
-                        }
-                        
-                        
+                            .navigationBarTitle("USC Films", displayMode: .inline)
+                            .toolbar {
+                                Button("TV Shows") {
+                                    showTVShows.toggle()
+                                }}
                     }
-                    
-                    
-                    Spacer()
-                        // Adds padding and Nav Bar
-                        
-                        // TODO: only show the USC Films title when scrolling down?
-                        
-                        .navigationBarTitle("USC Films", displayMode: .inline)
-                        .toolbar {
-                            Button("TV Shows") {
-                                showTVShows.toggle()
-                            }}
+                    .padding()
                 }
-                .padding()
+            } // end NavView
+        } // end if
+        
+        else {
+            VStack {
+                ProgressView()
+                Text("Fetching Data...")
             }
-        } // end NavView
+        }
         // end body
     }
     
@@ -424,7 +436,7 @@ struct HomeView: View {
                 }
             Spacer()
             // TOAST END
-
+            
         } //Vstack
         .padding(.bottom, 50)
     }
@@ -492,7 +504,7 @@ struct HomeView: View {
                                     Image(systemName: "\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
                                 }
                             } // WL btn end
-
+                            
                             Button {
                                 print("Share on Facebook")
                                 openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movie.idStr)")!)
@@ -621,7 +633,7 @@ struct HomeView: View {
                 }
             Spacer()
             // TOAST END
-
+            
         } //Vstack
         .padding(.bottom, 50)
     }

@@ -42,6 +42,6 @@ struct MainSlideView<Content: View>: View {
 
         }
         .animation(.spring())
-        }
-    }
+        } // GeometryReader
+    } // body end
 }
