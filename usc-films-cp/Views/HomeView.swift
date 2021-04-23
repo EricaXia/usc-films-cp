@@ -205,7 +205,7 @@ struct HomeView: View {
                             topRatedMovies
                             Spacer()
                             popularMovies
-
+                            
                         }
                         
                         VStack(alignment: .center) {
@@ -271,7 +271,8 @@ struct HomeView: View {
                                     .multilineTextAlignment(.center)
                                 
                             } // VStack
-                        }
+                            
+                        } // Navlink
                         .buttonStyle(PlainButtonStyle())
                         
                         .contentShape(RoundedRectangle(cornerRadius: 10))
@@ -283,6 +284,7 @@ struct HomeView: View {
                                 self.ToastMsg_TR = movie.titleStr
                                 
                                 // if movie already found on WL:
+                                //                                if watchlist.firstIndex(where: { $0 == movie }) != nil {
                                 if let idx = watchlist.firstIndex(where: { $0 == movie }) {
                                     
                                     print("Found movie \(movie.titleStr) on WL")
@@ -297,18 +299,9 @@ struct HomeView: View {
                                     }
                                     
                                     
-                                    
-//                                    self.btnText = "Remove from watchlist"
-                                    
-//                                    watchlist.remove(at: idx)
-//                                    print("removed from WL")
-//                                    self.isMovieOnWL = false
-                                    
                                 } else {
                                     print("Movie \(movie.titleStr) NOT found on WL")
-                                // if the movie is NOT on the WL yet
-//                                if (!self.isMovieOnWL) {
-//                                    self.btnText = "Add to watchlist"
+                                    // if the movie is NOT on the WL yet
                                     
                                     // show Toast
                                     withAnimation {
@@ -319,13 +312,23 @@ struct HomeView: View {
                                     print("Added movie \(movie.titleStr) to WL")
                                     self.isMovieOnWL = true
                                     
+                                    
                                 } //end if
                                 
                             } label: {
-                                Text("Add to watchlist")
-//                                Label(Text("\(self.isMovieOnWL ? "Remove from watchList" : "Add to watchList")"), systemImage: "bookmark")
+                                HStack {
+                                    Text("\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
+                                    Image(systemName: "bookmark")
+                                    
+                                }
+                                
+                                
+                                //
+                                
+                                //                                Label(Text("\(self.isMovieOnWL ? "Remove from watchList" : "Add to watchList")"), systemImage: "bookmark")
+                                
                             } // WL btn end
-
+                            
                             Button {
                                 print("Share on Facebook")
                                 openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movie.idStr)")!)
@@ -349,11 +352,11 @@ struct HomeView: View {
             
             // TOAST START
             Spacer()
-            .toast(isPresented: self.$isToastShown_TR) {
-                HStack {
-                    Text("\(self.ToastMsg_TR) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
+                .toast(isPresented: self.$isToastShown_TR) {
+                    HStack {
+                        Text("\(self.ToastMsg_TR) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
+                    }
                 }
-            }
             Spacer()
             // TOAST END
             
@@ -459,7 +462,7 @@ struct HomeView: View {
                             // WL btn start
                             Button{
                                 // TODO Add to watchlist btn and toast msg here
-
+                                
                                 // if the movie is NOT on the WL yet
                                 if (!self.isMovieOnWL) {
                                     self.btnText = "Add to watchlist"
@@ -467,7 +470,7 @@ struct HomeView: View {
                                     withAnimation {
                                         self.isToastShown_Pop = true
                                     }
-
+                                    
                                     watchlist.append(movie)
                                     self.isMovieOnWL.toggle()
                                     
@@ -505,11 +508,11 @@ struct HomeView: View {
             
             // TOAST START
             Spacer()
-            .toast(isPresented: self.$isToastShown_Pop) {
-                HStack {
-                    Text("\(self.ToastMsg_Pop) \(self.isMovieOnWL ? "was added" : "was removed")")
+                .toast(isPresented: self.$isToastShown_Pop) {
+                    HStack {
+                        Text("\(self.ToastMsg_Pop) \(self.isMovieOnWL ? "was added" : "was removed")")
+                    }
                 }
-            }
             Spacer()
             // TOAST END
             
