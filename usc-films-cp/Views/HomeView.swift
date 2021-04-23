@@ -17,7 +17,7 @@ extension Array: RawRepresentable where Element: Codable {
         }
         self = result
     }
-
+    
     public var rawValue: String {
         guard let data = try? JSONEncoder().encode(self),
               let result = String(data: data, encoding: .utf8)
@@ -130,7 +130,7 @@ struct HomeView: View {
                     
                     Spacer()
                 }.padding()
-
+                
                 // Nav Bar items
                 .navigationBarTitle("USC Films", displayMode: .inline)
                 .toolbar {
@@ -195,6 +195,7 @@ struct HomeView: View {
                             topRatedMovies
                             Spacer()
                             popularMovies
+
                         }
                         
                         VStack(alignment: .center) {
@@ -221,8 +222,6 @@ struct HomeView: View {
                                 showTVShows.toggle()
                             }}
                 }
-                // TOAST HERE
-                .popup(isPresented: isToastShown, alignment: .center, content: ToastContentView.init)
                 .padding()
             }
             
@@ -259,25 +258,33 @@ struct HomeView: View {
                                     .font(.footnote)
                                     .foregroundColor(Color.gray)
                                     .multilineTextAlignment(.center)
-                            }
+                                
+                            } // VStack
+                            
+                            
                         }
                         .buttonStyle(PlainButtonStyle())
+                        
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu {
                             Button{
-                                print("Add to watchList")
-                                self.isToastShown.toggle()
-                                watchlist.append(movie)
-                                // change variable to isMovieOnWL
-                                if self.isToastShown {
-                                    self.btnText = "Remove from watchlist"
-                                    // TODO: remove movie by checking APPSTORAGE
-                                } else if !self.isToastShown {
-                                    self.btnText = "Add to watchlist"
-                                }
+                                // TODO Add to watchlist btn and toast msg here
+                                
+                                // if the movie is NOT on the watchlist yet
+                                if 	(!self.isMovieOnWL) {
+                                    print("Add to watchList")
+                                    
+                                    withAnimation {
+                                        self.isToastShown = true
+                                    }
+
+                                    watchlist.append(movie)
+                                } // end if
+                                
+                                
                             } label: {
                                 Label(self.btnText, systemImage: "bookmark")
-                                }
+                            }
                             
                             Button {
                                 print("Share on Facebook")
@@ -293,12 +300,27 @@ struct HomeView: View {
                                 Label("Share on Twitter", image: "twitter")
                             }
                         }
-                    }
+                    } // ForEach
+                    
+                } // HStack
+                
+                
+            } // Scrollview
+            
+            // TOAST START
+            Spacer()
+            .toast(isPresented: self.$isToastShown) {
+                HStack {
+                    //                            Text("\(movie.titleStr) \(self.isMovieOnWL ? "was added" : "was removed")")
+                    Text("TESTTESTTESTTEST").foregroundColor(.white)
                 }
             }
-        }
+            Spacer()
+            // TOAST END
+            
+        } //VStack
         .padding(.bottom, 50)
-    }
+    } // End View
     
     private var topRatedTv: some View {
         VStack(alignment: .leading) {
@@ -394,10 +416,22 @@ struct HomeView: View {
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu {
                             Button{
-                                print("Add to watchList")
-                                watchlist.append(movie)
+                                // TODO Add to watchlist btn and toast msg here
+                                
+                                // if the movie is NOT on the watchlist yet
+                                if     (!self.isMovieOnWL) {
+                                    print("Add to watchList")
+                                    
+                                    withAnimation {
+                                        self.isToastShown = true
+                                    }
+
+                                    watchlist.append(movie)
+                                } // end if
+                                
+                                
                             } label: {
-                                Label("Add to watchList", systemImage: "bookmark")
+                                Label(self.btnText, systemImage: "bookmark")
                             }
                             Button {
                                 print("Share on Facebook")
@@ -416,7 +450,19 @@ struct HomeView: View {
                     }
                 }
             }
-        }
+            
+            // TOAST START
+            Spacer()
+            .toast(isPresented: self.$isToastShown) {
+                HStack {
+                    //                            Text("\(movie.titleStr) \(self.isMovieOnWL ? "was added" : "was removed")")
+                    Text("TESTTESTTESTTEST").foregroundColor(.white)
+                }
+            }
+            Spacer()
+            // TOAST END
+            
+        } // Vstack
         .padding(.bottom, 50)
     }
     

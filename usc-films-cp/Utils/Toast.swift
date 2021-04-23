@@ -1,96 +1,56 @@
-// TODO: change code!!
-// Change animation - positioning near bottom
-// Mke it FADE away
-// Change variasble names!!
-
+//
+//  Toast.swift
+//
+//
+//  Created by Erica Xia on 4/21/21.
+//
 import SwiftUI
+import Foundation
 
-struct Popup<T: View>: ViewModifier {
-    let popup: T
-    let alignment: Alignment
-    let direction: Direction
-    let isPresented: Bool
-
-    init(isPresented: Bool, alignment: Alignment, direction: Direction, @ViewBuilder content: () -> T) {
-        self.isPresented = isPresented
-        self.alignment = alignment
-        self.direction = direction
-        popup = content()
-    }
-
-    func body(content: Content) -> some View {
-        content
-            .overlay(popupContent())
-    }
-
-    @ViewBuilder
-    private func popupContent() -> some View {
-        GeometryReader { geometry in
-            if isPresented {
-                popup
-                    .animation(.spring())
-                    .transition(.offset(x: 0, y: direction.offset(popupFrame: geometry.frame(in: .global))))
-                    .frame(width: geometry.size.width, height: geometry.size.height, alignment: alignment)
-            }
-        }
-    }
-}
-
-extension Popup {
-    enum Direction {
-        case top, bottom
-
-        func offset(popupFrame: CGRect) -> CGFloat {
-            switch self {
-            case .top:
-                let aboveScreenEdge = -popupFrame.maxY
-                return aboveScreenEdge
-            case .bottom:
-                let belowScreenEdge = UIScreen.main.bounds.height - popupFrame.minY
-                return belowScreenEdge
-            }
-        }
-    }
-}
 
 extension View {
-    func popup<T: View>(
-        isPresented: Bool,
-        alignment: Alignment = .center,
-        direction: Popup<T>.Direction = .bottom,
-        @ViewBuilder content: () -> T
-    ) -> some View {
-        return modifier(Popup(isPresented: isPresented, alignment: alignment, direction: direction, content: content))
+    func toast<Content>(isPresented: Binding<Bool>, content: @escaping () -> Content) -> some View where Content: View {
+        Toast(
+            isPresented: isPresented,
+            presenter: { self },
+            content: content
+        )
     }
 }
 
-private extension View {
-    func onGlobalFrameChange(_ onChange: @escaping (CGRect) -> Void) -> some View {
-        background(GeometryReader { geometry in
-            Color.clear.preference(key: FramePreferenceKey.self, value: geometry.frame(in: .global))
-        })
-        .onPreferenceChange(FramePreferenceKey.self, perform: onChange)
-    }
+struct Toast<Presenting, Content>: View where Presenting: View, Content: View {
+    @Binding var isPresented: Bool
+    let presenter: () -> Presenting
+    let content: () -> Content
+    let delay: TimeInterval = 2
 
-    func print(_ varargs: Any...) -> Self {
-        Swift.print(varargs)
-        return self
-    }
-}
-
-private struct FramePreferenceKey: PreferenceKey {
-    static let defaultValue = CGRect.zero
-    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
-        value = nextValue()
-    }
-}
-
-private extension View {
-    @ViewBuilder func applyIf<T: View>(_ condition: @autoclosure () -> Bool, apply: (Self) -> T) -> some View {
-        if condition() {
-            apply(self)
-        } else {
-            self
+    var body: some View {
+        if self.isPresented {
+            DispatchQueue.main.asyncAfter(deadline: .now() + self.delay) {
+                withAnimation {
+                    self.isPresented = false
+                }
+            }
         }
-    }
-}
+
+        return GeometryReader { geometry in
+            ZStack(alignment: .bottom) {
+                self.presenter()
+
+                ZStack {
+                    Capsule()
+                        .fill(Color.gray)
+
+                    self.content() // the Movie Poster
+                    
+                } //ZStack (inner)
+                
+//                .frame(width: geometry.size.width / 1.25, height: geometry.size.height / 10)
+                .frame(width: geometry.size.width, height: geometry.size.height * 2)
+
+                .opacity(self.isPresented ? 1 : 0)
+            } //ZStack (outer)
+            .padding(.bottom, 300)
+        } //GeometryReader
+    } //body
+} //Toast
