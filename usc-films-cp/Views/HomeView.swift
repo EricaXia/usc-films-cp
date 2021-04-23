@@ -227,9 +227,7 @@ struct HomeView: View {
                 }
                 .padding()
             }
-            
-            
-        }
+        } // end NavView
         // end body
     }
     
