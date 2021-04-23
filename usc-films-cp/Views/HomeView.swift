@@ -37,7 +37,8 @@ struct HomeView: View {
     
     // For watchlist:
     @AppStorage("watchlist") var watchlist: [Movie] = []
-    @State private var isToastShown = false
+    @State private var isToastShown_TR = false
+    @State private var isToastShown_Pop = false
     @State private var isMovieOnWL = false
     @State var btnText = "Add to watchlist"
     
@@ -260,8 +261,6 @@ struct HomeView: View {
                                     .multilineTextAlignment(.center)
                                 
                             } // VStack
-                            
-                            
                         }
                         .buttonStyle(PlainButtonStyle())
                         
@@ -275,7 +274,7 @@ struct HomeView: View {
                                     print("Add to watchList")
                                     
                                     withAnimation {
-                                        self.isToastShown = true
+                                        self.isToastShown_TR = true
                                     }
 
                                     watchlist.append(movie)
@@ -309,10 +308,10 @@ struct HomeView: View {
             
             // TOAST START
             Spacer()
-            .toast(isPresented: self.$isToastShown) {
+            .toast(isPresented: self.$isToastShown_TR) {
                 HStack {
                     //                            Text("\(movie.titleStr) \(self.isMovieOnWL ? "was added" : "was removed")")
-                    Text("TESTTESTTESTTEST").foregroundColor(.white)
+                    Text("TOP RATED TESTTESTTESTTEST").foregroundColor(.white)
                 }
             }
             Spacer()
@@ -423,7 +422,7 @@ struct HomeView: View {
                                     print("Add to watchList")
                                     
                                     withAnimation {
-                                        self.isToastShown = true
+                                        self.isToastShown_Pop = true
                                     }
 
                                     watchlist.append(movie)
@@ -453,10 +452,10 @@ struct HomeView: View {
             
             // TOAST START
             Spacer()
-            .toast(isPresented: self.$isToastShown) {
+            .toast(isPresented: self.$isToastShown_Pop) {
                 HStack {
                     //                            Text("\(movie.titleStr) \(self.isMovieOnWL ? "was added" : "was removed")")
-                    Text("TESTTESTTESTTEST").foregroundColor(.white)
+                    Text("POPULAR MOVIE TESTTESTTESTTEST").foregroundColor(.white)
                 }
             }
             Spacer()
