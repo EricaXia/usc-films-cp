@@ -332,7 +332,7 @@ struct HomeView: View {
             
         } //VStack
         .padding(.bottom, 50)
-    } // End View
+    }
     
     // Top Rated TV Shows View
     private var topRatedTv: some View {
