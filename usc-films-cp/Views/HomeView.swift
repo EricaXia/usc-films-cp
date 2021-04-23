@@ -41,6 +41,9 @@ struct HomeView: View {
     @State private var isToastShown_Pop = false
     @State private var isMovieOnWL = false
     @State var btnText = "Add to watchlist"
+    @State var ToastMsg_TR = "Top Rated Movie A"
+    @State var ToastMsg_Pop = "Top Rated Movie B"
+    
     
     // For downloading data
     @ObservedObject var downloader = Downloader()
@@ -231,6 +234,7 @@ struct HomeView: View {
         // end body
     }
     
+    // Top Rated Movies View
     private var topRatedMovies: some View {
         VStack(alignment: .leading) {
             Text("Top Rated").font(.title).fontWeight(.bold).padding(.bottom, 0.0)
@@ -266,25 +270,35 @@ struct HomeView: View {
                         
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu {
+                            // WL btn start
                             Button{
-                                // TODO Add to watchlist btn and toast msg here
-                                
-                                // if the movie is NOT on the watchlist yet
-                                if 	(!self.isMovieOnWL) {
-                                    print("Add to watchList")
+                                // TODO  - finish toast , e.g. replace ismovieonwl var with individ trackers
+
+                                // if the movie is NOT on the WL yet
+                                if (!self.isMovieOnWL) {
+                                    self.btnText = "Add to watchlist"
                                     
                                     withAnimation {
                                         self.isToastShown_TR = true
                                     }
 
                                     watchlist.append(movie)
-                                } // end if
-                                
-                                
+                                    self.isMovieOnWL.toggle()
+                                    
+                                }
+                                // else if movie already on WL, to remove:
+                                else {
+                                    self.btnText = "Remove from watchlist"
+                                    
+                                    // TODO: remove from wl function
+                                    
+                                    // can add it again
+                                    self.isMovieOnWL.toggle()
+                                }
                             } label: {
                                 Label(self.btnText, systemImage: "bookmark")
-                            }
-                            
+                            } // WL btn end
+
                             Button {
                                 print("Share on Facebook")
                                 openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movie.idStr)")!)
@@ -310,8 +324,7 @@ struct HomeView: View {
             Spacer()
             .toast(isPresented: self.$isToastShown_TR) {
                 HStack {
-                    //                            Text("\(movie.titleStr) \(self.isMovieOnWL ? "was added" : "was removed")")
-                    Text("TOP RATED TESTTESTTESTTEST").foregroundColor(.white)
+                    Text("\(self.ToastMsg_TR) \(self.isMovieOnWL ? "was added" : "was removed")")
                 }
             }
             Spacer()
@@ -321,6 +334,7 @@ struct HomeView: View {
         .padding(.bottom, 50)
     } // End View
     
+    // Top Rated TV Shows View
     private var topRatedTv: some View {
         VStack(alignment: .leading) {
             Text("Top Rated").font(.title).fontWeight(.bold).padding(.bottom, 0.0)
@@ -381,6 +395,7 @@ struct HomeView: View {
         .padding(.bottom, 50)
     }
     
+    // Popular Movies View
     private var popularMovies: some View {
         VStack(alignment: .leading) {
             Text("Popular").font(.title).fontWeight(.bold).padding(.bottom, 0.0)
@@ -414,24 +429,35 @@ struct HomeView: View {
                         .buttonStyle(PlainButtonStyle())
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu {
+                            // WL btn start
                             Button{
                                 // TODO Add to watchlist btn and toast msg here
-                                
-                                // if the movie is NOT on the watchlist yet
-                                if     (!self.isMovieOnWL) {
-                                    print("Add to watchList")
+
+                                // if the movie is NOT on the WL yet
+                                if (!self.isMovieOnWL) {
+                                    self.btnText = "Add to watchlist"
                                     
                                     withAnimation {
                                         self.isToastShown_Pop = true
                                     }
 
                                     watchlist.append(movie)
-                                } // end if
-                                
-                                
+                                    self.isMovieOnWL.toggle()
+                                    
+                                }
+                                // else if movie already on WL, to remove:
+                                else {
+                                    self.btnText = "Remove from watchlist"
+                                    
+                                    // TODO: remove from wl function
+                                    
+                                    // can add it again
+                                    self.isMovieOnWL.toggle()
+                                }
                             } label: {
                                 Label(self.btnText, systemImage: "bookmark")
-                            }
+                            } // WL btn end
+                            
                             Button {
                                 print("Share on Facebook")
                                 openURL(URL(string: "https://www.facebook.com/sharer/sharer.php?u=https://www.themoviedb.org/movie/\(movie.idStr)")!)
@@ -454,8 +480,7 @@ struct HomeView: View {
             Spacer()
             .toast(isPresented: self.$isToastShown_Pop) {
                 HStack {
-                    //                            Text("\(movie.titleStr) \(self.isMovieOnWL ? "was added" : "was removed")")
-                    Text("POPULAR MOVIE TESTTESTTESTTEST").foregroundColor(.white)
+                    Text("\(self.ToastMsg_Pop) \(self.isMovieOnWL ? "was added" : "was removed")")
                 }
             }
             Spacer()
@@ -465,6 +490,7 @@ struct HomeView: View {
         .padding(.bottom, 50)
     }
     
+    // Popular TV Shows View
     private var popularTv: some View {
         VStack(alignment: .leading) {
             Text("Popular").font(.title).fontWeight(.bold).padding(.bottom, 0.0)

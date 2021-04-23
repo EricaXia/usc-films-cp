@@ -21,6 +21,7 @@
 		2B1EED67262D05CA009B1086 /* Movies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1EED66262D05CA009B1086 /* Movies.swift */; };
 		2B1EED6C262D05DA009B1086 /* MoviesD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1EED6B262D05DA009B1086 /* MoviesD.swift */; };
 		2B72586C26332C130056D359 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B72586B26332C130056D359 /* Toast.swift */; };
+		2B9380A42633640A0076DBDB /* Xcode-shortcuts in Resources */ = {isa = PBXBuildFile; fileRef = 2B9380A32633640A0076DBDB /* Xcode-shortcuts */; };
 		2BB3FF9A262D033200463D08 /* usc_films_cpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB3FF99262D033200463D08 /* usc_films_cpApp.swift */; };
 		2BB3FF9C262D033200463D08 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB3FF9B262D033200463D08 /* ContentView.swift */; };
 		2BB3FF9E262D033200463D08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BB3FF9D262D033200463D08 /* Assets.xcassets */; };
@@ -65,6 +66,7 @@
 		2B1EED66262D05CA009B1086 /* Movies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movies.swift; sourceTree = "<group>"; };
 		2B1EED6B262D05DA009B1086 /* MoviesD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesD.swift; sourceTree = "<group>"; };
 		2B72586B26332C130056D359 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		2B9380A32633640A0076DBDB /* Xcode-shortcuts */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Xcode-shortcuts"; sourceTree = "<group>"; };
 		2BB3FF96262D033200463D08 /* usc-films-cp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "usc-films-cp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB3FF99262D033200463D08 /* usc_films_cpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = usc_films_cpApp.swift; sourceTree = "<group>"; };
 		2BB3FF9B262D033200463D08 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 		2BB3FF8D262D033100463D08 = {
 			isa = PBXGroup;
 			children = (
+				2B9380A32633640A0076DBDB /* Xcode-shortcuts */,
 				2BB3FF98262D033200463D08 /* usc-films-cp */,
 				2BB3FFAA262D033200463D08 /* usc-films-cpTests */,
 				2BB3FFB5262D033200463D08 /* usc-films-cpUITests */,
@@ -352,6 +355,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B9380A42633640A0076DBDB /* Xcode-shortcuts in Resources */,
 				2BB3FFA1262D033200463D08 /* Preview Assets.xcassets in Resources */,
 				2BB3FF9E262D033200463D08 /* Assets.xcassets in Resources */,
 			);
