@@ -97,8 +97,8 @@ struct DetailsView: View {
                                                     .placeholder{
                                                         Image("cast_placeholder")
                                                             .resizable()
-                                                            .aspectRatio(contentMode: .fill)
-                                                            .frame(width: 90)
+                                                            .aspectRatio(contentMode: .fit) //fill
+                                                            .frame(width: 100) //90
                                                             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                                                             .shadow(radius: 1)
                                                     }
@@ -191,18 +191,18 @@ struct DetailsView: View {
                                 }
                             } // Recs carousel end
                             
-                            // TOAST START
-                            Spacer()
-                                .toast(isPresented: self.$isToastShown) {
-                                    HStack {
-                                        Text("\(self.ToastMsg) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
-                                            .multilineTextAlignment(.center)
-                                            .fixedSize(horizontal: false, vertical: true)
-                                            .padding()
-                                    }
-                                }
-                            Spacer()
-                            // TOAST END
+//                            // TOAST START
+//                            Spacer()
+//                                .toast(isPresented: self.$isToastShown) {
+//                                    HStack {
+//                                        Text("\(self.ToastMsg) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
+//                                            .multilineTextAlignment(.center)
+//                                            .fixedSize(horizontal: false, vertical: true)
+//                                            .padding()
+//                                    }
+//                                }
+//                            Spacer()
+//                            // TOAST END
 
                         } // VStack end
                     } // Scrollview end
