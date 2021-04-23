@@ -50,6 +50,7 @@ struct Toast<Presenting, Content>: View where Presenting: View, Content: View {
 
                 .opacity(self.isPresented ? 1 : 0)
             } //ZStack (outer)
+            .padding(.top, 35)
             .padding(.bottom, 300)
         } //GeometryReader
     } //body

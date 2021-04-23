@@ -40,16 +40,9 @@ struct HomeView: View {
     @State private var isToastShown_TR = false
     @State private var isToastShown_Pop = false
     @State private var isMovieOnWL = false
-    @State private var topratedArr = [
-        BoolSelect(isMovieOnWL: false), BoolSelect(isMovieOnWL: false),
-        BoolSelect(isMovieOnWL: false), BoolSelect(isMovieOnWL: false),
-        BoolSelect(isMovieOnWL: false)
-    ]
     @State var btnText = "Add to watchlist"
     @State var ToastMsg_TR = ""
     @State var ToastMsg_Pop = ""
-    
-    
     
     // For downloading data
     @ObservedObject var downloader = Downloader()
@@ -274,35 +267,22 @@ struct HomeView: View {
                             
                         } // Navlink
                         .buttonStyle(PlainButtonStyle())
-                        
                         .contentShape(RoundedRectangle(cornerRadius: 10))
                         .contextMenu {
                             // WL btn start
                             Button{
-                                // TODO  - replace ismovieonwl var with individual trackers
-                                
                                 self.ToastMsg_TR = movie.titleStr
-                                
                                 // if movie already found on WL:
-                                //                                if watchlist.firstIndex(where: { $0 == movie }) != nil {
                                 if let idx = watchlist.firstIndex(where: { $0 == movie }) {
-                                    
-                                    print("Found movie \(movie.titleStr) on WL")
-                                    
                                     // Click btn to REMOVE from WL
                                     watchlist.remove(at: idx)
                                     self.isMovieOnWL = false
-                                    
                                     // show Toast
                                     withAnimation {
                                         self.isToastShown_TR = true
                                     }
-                                    
-                                    
                                 } else {
-                                    print("Movie \(movie.titleStr) NOT found on WL")
                                     // if the movie is NOT on the WL yet
-                                    
                                     // show Toast
                                     withAnimation {
                                         self.isToastShown_TR = true
@@ -311,14 +291,10 @@ struct HomeView: View {
                                     watchlist.append(movie)
                                     print("Added movie \(movie.titleStr) to WL")
                                     self.isMovieOnWL = true
-                                    
-                                    
                                 } //end if
-                                
                             } label: {
                                 HStack {
                                     Text("\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
-//                                    Image(systemName: "bookmark")
                                     Image(systemName: "\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
                                 }
                             } // WL btn end
@@ -338,10 +314,7 @@ struct HomeView: View {
                             }
                         }
                     } // ForEach
-                    
                 } // HStack
-                
-                
             } // Scrollview
             
             // TOAST START
@@ -349,6 +322,9 @@ struct HomeView: View {
                 .toast(isPresented: self.$isToastShown_TR) {
                     HStack {
                         Text("\(self.ToastMsg_TR) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding()
                     }
                 }
             Spacer()
