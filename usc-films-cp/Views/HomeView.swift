@@ -272,31 +272,38 @@ struct HomeView: View {
                         .contextMenu {
                             // WL btn start
                             Button{
-                                // TODO  - finish toast , e.g. replace ismovieonwl var with individ trackers
-
-                                // if the movie is NOT on the WL yet
-                                if (!self.isMovieOnWL) {
-                                    self.btnText = "Add to watchlist"
+                                // TODO  - replace ismovieonwl var with individual trackers
+                                
+                                self.ToastMsg_TR = movie.titleStr
+                                
+                                // if movie already found on WL:
+                                if let idx = watchlist.firstIndex(where: { $0 == movie }) {
+                                    self.isMovieOnWL = true
+//                                    self.btnText = "Remove from watchlist"
+                                    // TODO: remove from WL
+                                    watchlist.remove(at: idx)
+                                    print("removed from WL")
+                                    self.isMovieOnWL = false
                                     
+                                } else {
+                                // if the movie is NOT on the WL yet
+//                                if (!self.isMovieOnWL) {
+//                                    self.btnText = "Add to watchlist"
+                                    
+                                    // show Toast
                                     withAnimation {
                                         self.isToastShown_TR = true
                                     }
-
+                                    // Add to WL
                                     watchlist.append(movie)
-                                    self.isMovieOnWL.toggle()
+                                    print("added to WL")
+                                    self.isMovieOnWL = true
                                     
-                                }
-                                // else if movie already on WL, to remove:
-                                else {
-                                    self.btnText = "Remove from watchlist"
-                                    
-                                    // TODO: remove from wl function
-                                    
-                                    // can add it again
-                                    self.isMovieOnWL.toggle()
-                                }
+                                } //end if
+                                
                             } label: {
-                                Label(self.btnText, systemImage: "bookmark")
+                                Text("Add to watchlist")
+//                                Label(Text("\(self.isMovieOnWL ? "Remove from watchList" : "Add to watchList")"), systemImage: "bookmark")
                             } // WL btn end
 
                             Button {
@@ -324,7 +331,7 @@ struct HomeView: View {
             Spacer()
             .toast(isPresented: self.$isToastShown_TR) {
                 HStack {
-                    Text("\(self.ToastMsg_TR) \(self.isMovieOnWL ? "was added" : "was removed")")
+                    Text("\(self.ToastMsg_TR) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
                 }
             }
             Spacer()
