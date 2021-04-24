@@ -49,6 +49,7 @@ struct DetailsView: View {
         self.movie = movie
         self.media_type = movie.mediaTypeStr
         self.detailsDownloader = DetailsDownloader(movie: movie)
+        detailsDownloader.getMovieDetails()
     }
     
     var body: some View {
@@ -81,7 +82,6 @@ struct DetailsView: View {
                                     .lineLimit( showMoreText ? 3: nil)
                                 Button(action: { self.showMoreText.toggle()} )
                                     {Text(self.showMoreText ? "Show More" : "Show Less").font(.footnote).fontWeight(.medium).foregroundColor(Color.gray)}
-                                    //                                    { Text("Show More...").font(.footnote).fontWeight(.medium).foregroundColor(Color.gray) }
                                     .padding(.leading, 250)
                             }
                             // CAST
@@ -97,7 +97,7 @@ struct DetailsView: View {
                                                     .placeholder{
                                                         Image("cast_placeholder")
                                                             .resizable()
-                                                            .aspectRatio(contentMode: .fit) //fill
+                                                            .aspectRatio(contentMode: .fill) //fit
                                                             .frame(width: 100) //90
                                                             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                                                             .shadow(radius: 1)
@@ -183,7 +183,6 @@ struct DetailsView: View {
                                                                 .cornerRadius(10)
                                                         }
                                                     } //end NavLink
-                                                    
                                                 }
                                             }
                                         }
@@ -204,26 +203,28 @@ struct DetailsView: View {
 //                            Spacer()
 //                            // TOAST END
 
+                            
                         } // VStack end
+                        
                     } // Scrollview end
                     .padding()
                     
                     
                     
-                } else {
+                } // End if let movie first
+                else {
                     ProgressView()
                     Text("Fetching Data...")
                 }
-            } else {
+            } // End if
+            else {
                 ProgressView()
                 Text("Fetching Data...")
-                
             }
             // ends the Group
         }.onAppear {
-            //                print("Details View Loaded")
-            detailsDownloader.getMovieDetails()
-            print("Details downloaded in view")
+//            detailsDownloader.getMovieDetails()
+//            print("Details downloaded in view")
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
                 //                print(detailsDownloader.movieD) // this WORKS
                 self.isDelay = true;
