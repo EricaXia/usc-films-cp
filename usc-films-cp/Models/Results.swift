@@ -9,7 +9,7 @@ struct SearchResult: Codable, Identifiable, Hashable {
     var media_type: String?
     var title: String?
     var year: String?
-    var star_rating: Double?
+    var star_rating: String?
     var img_path: String?
     
     var mediaTypeStr: String {

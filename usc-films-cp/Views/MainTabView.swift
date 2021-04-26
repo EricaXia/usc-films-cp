@@ -20,7 +20,8 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: $currentTab) {
 
-            SearchView().tabItem {
+//            SearchView().tabItem {
+            SearchBarView().tabItem {
                 myTabItem(text: "Search", image: "magnifyingglass")
             }.tag(Tabs.search)
             

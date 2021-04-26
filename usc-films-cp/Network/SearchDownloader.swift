@@ -11,9 +11,9 @@ final class SearchDownloader: ObservableObject{
 
     @Published var search_results = [SearchResult]()
     
-    private var searchText: String
-    static var baseURL = "http://localhost:8080/apis/search/"
-//    static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
+    private var searchText: String = ""
+//    static var baseURL = "http://localhost:8080/apis/search/"
+    static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
     
     init(searchText: String) {
         self.searchText = searchText
@@ -27,11 +27,11 @@ final class SearchDownloader: ObservableObject{
             switch result {
             case .success(let searchResponse):
                 self.search_results = searchResponse.results
-                print(self.search_results)  // TO TEST
+                print(self.search_results)
             case .failure(let err):
                 print(err)
             }
         }
         
-    }
+    } // func end
 }

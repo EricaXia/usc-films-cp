@@ -241,7 +241,7 @@ struct HomeView: View {
             }
         }
         // end body
-    }
+    } // body
     
     // Top Rated Movies View
     private var topRatedMovies: some View {
@@ -643,7 +643,7 @@ struct HomeView: View {
             HomeView()
         }
     }
-}
+} // HomeView
 
 struct BoolSelect: Identifiable {
     var id = UUID()
