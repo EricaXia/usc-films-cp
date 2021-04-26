@@ -15,17 +15,24 @@ searchRouter.get("/", (req, res) => {
             let search_data2 = [];
 
             for (var i = 0; i < search_data.length; i++) {
-                if (search_data[i]['name']) {
-                    search_data[i]['title'] = search_data[i]['name']
+                if (search_data[i]["name"]) {
+                    search_data[i]["title"] = search_data[i]["name"];
+                }
+
+                if (search_data[i]["vote_average"]) {
+                    search_data[i]["star_rating"] = (search_data[i]["vote_average"] / 2).toFixed(2);
+                } else {
+                    search_data[i]["star_rating"] = 0;
                 }
 
                 // skip results that DON"T have backdrop image
                 if (search_data[i]["backdrop_path"]) {
                     search_data[i]["img_path"] = "https://image.tmdb.org/t/p/w500" + search_data[i]["backdrop_path"];
 
-                    // Placeholder data, TODO: get actual values
-                    search_data[i]["year"] = "2021"
-                    search_data[i]["star_rating"] = 2.5
+                    
+                    // TODO: if condit for release date or first air date, get year
+                    search_data[i]["year"] = "2021";
+
 
                     search_data2.push({
                         "id": search_data[i]["id"],
@@ -42,8 +49,8 @@ searchRouter.get("/", (req, res) => {
             // let search_data3 = search_data2.slice(0,10);
 
             res.json({
-                results: [search_data2]
-              });
+                results: search_data2
+            });
 
         })
         .catch((error) => console.log(error));

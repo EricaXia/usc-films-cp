@@ -13,14 +13,15 @@ struct SearchView: View {
     @Environment(\.openURL) var openURL
     @ObservedObject var searchDownloader: SearchDownloader
     
+    // TODO: fix error, replace searchText
     init() {
-        self.searchDownloader = SearchDownloader(searchText: "harry")
+        self.searchDownloader = SearchDownloader(searchText: "harry") // this works
+//        self.searchDownloader = SearchDownloader(searchText: "harry potter") // this does NOT work (due to space?)
+//        self.searchDownloader = SearchDownloader(searchText: searchText) // this does NOT work due to the error: Variable 'self.searchDownloader' used before being initialized
     }
     
     var body: some View {
         
-        
-//        ScrollView {
         NavigationView {
             
             VStack(alignment: .leading) {
@@ -43,11 +44,10 @@ struct SearchView: View {
                 
             } //vstack
             
-        } //scrollview
+        } // Navview
         
         
     } // body
-    
     
     func searchResults(for searchText: String) {
         // If length of search text is at least 3 chars, make the search
