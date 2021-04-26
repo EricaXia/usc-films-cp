@@ -31,8 +31,13 @@ searchRouter.get("/", (req, res) => {
 
                     
                     // TODO: if condit for release date or first air date, get year
-                    search_data[i]["year"] = "2021";
-
+                    if (search_data[i]["release_date"]) {
+                        search_data[i]["year"] = search_data[i]["release_date"].split("-")[0];
+                    } else if (search_data[i]["first_air_date"]) {
+                        search_data[i]["year"] = search_data[i]["first_air_date"].split("-")[0];
+                    } else {
+                        search_data[i]["year"] = "2021"
+                    }
 
                     search_data2.push({
                         "id": search_data[i]["id"],
