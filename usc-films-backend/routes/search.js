@@ -29,8 +29,6 @@ searchRouter.get("/", (req, res) => {
                 if (search_data[i]["backdrop_path"]) {
                     search_data[i]["img_path"] = "https://image.tmdb.org/t/p/w500" + search_data[i]["backdrop_path"];
 
-                    
-                    // TODO: if condit for release date or first air date, get year
                     if (search_data[i]["release_date"]) {
                         search_data[i]["year"] = search_data[i]["release_date"].split("-")[0];
                     } else if (search_data[i]["first_air_date"]) {
@@ -42,9 +40,11 @@ searchRouter.get("/", (req, res) => {
                     search_data2.push({
                         "id": search_data[i]["id"],
                         "title": search_data[i]["title"],
+                        "media_type": search_data[i]["media_type"],
                         "year": search_data[i]["year"],
                         "star_rating": search_data[i]["star_rating"],
                         "img_path": search_data[i]["img_path"]
+                        
                     });
                 }
 
