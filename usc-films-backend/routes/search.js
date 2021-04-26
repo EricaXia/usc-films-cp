@@ -20,7 +20,7 @@ searchRouter.get("/", (req, res) => {
                 }
 
                 if (search_data[i]["vote_average"]) {
-                    search_data[i]["star_rating"] = (search_data[i]["vote_average"] / 2).toFixed(2);
+                    search_data[i]["star_rating"] = (search_data[i]["vote_average"] / 2).toFixed(1);
                 }
 
                 // skip results that DON"T have backdrop image
