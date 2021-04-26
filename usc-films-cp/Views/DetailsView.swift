@@ -72,7 +72,7 @@ struct DetailsView: View {
                             HStack {
                                 Image(systemName: "star.fill").foregroundColor(.red)
                                 Text("\(movieDetails.starRatingStr)/5.0").fontWeight(.medium)
-                            }
+                            } // Hstack
                             
                             Group {
                                 Text(movieDetails.overviewStr)

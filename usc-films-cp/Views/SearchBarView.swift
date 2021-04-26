@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct SearchBarView: View {
     
     @Environment(\.openURL) var openURL
-    let movies = ["123", "Wonder woman", "Godzilla vs Kong", "Raya", "Minari", "Harry Potter and the chamber", "Harry Potter and the prisoner"]
+//    let movies = ["123", "Wonder woman", "Godzilla vs Kong", "Raya", "Minari", "Harry Potter and the chamber", "Harry Potter and the prisoner"]
     let debouncer = Debouncer(timeInterval: 0.6)
     
     @State private var searchText : String = ""
@@ -26,33 +27,50 @@ struct SearchBarView: View {
     
     var body: some View {
         NavigationView {
+            
             VStack(alignment: .leading) {
                 Text("Search")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.leading)
                     .padding(.top, 20)
-                
                 SearchBar(text: $searchText, onTextChanged: searchResults, placeholder: "Search Movies, TVs...")
                     .padding(.top, -5.0)
-
-                List {
-                    ForEach(self.search_results) {
-                        movie in
-                            VStack {
-                                
-                                Text("\(movie.mediaTypeStr)\(movie.yearStr)".uppercased()).fontWeight(.medium)
-                                HStack {
-                                    Image(systemName: "star.fill").foregroundColor(.red)
-                                    Text("\(movie.starRatingStr)").fontWeight(.medium)
-                                }
-                                Text(movie.titleStr).fontWeight(.medium)
-                            } // Vstack
-                    } // ForEach
-                } // List
                 
-            } //vstack
-           
+
+                    List {
+                        ForEach(self.search_results) {
+                            movie in
+                            ZStack() {
+                                    KFImage(URL(string: movie.imgPath)!)
+                                        .resizable()
+                                        .frame(width: 350, height: 190) // 196
+                                        .cornerRadius(15)
+                                        .shadow(radius: 1)
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        // MOVIE YEAR
+                                        Text("\(movie.mediaTypeStr)\(movie.yearStr)".uppercased()).fontWeight(.bold).foregroundColor(Color.white)
+                                        Spacer()
+                                        // STAR RATING
+                                        HStack {
+                                            Image(systemName: "star.fill").foregroundColor(.red)
+                                            Text("\(movie.starRatingStr)").fontWeight(.bold).foregroundColor(Color.white)
+                                        } // HStack
+                                    } // HStack
+                                    .padding([.top, .leading, .trailing])
+                                    Spacer()
+                                    // MOVIE TITLE
+                                    Text(movie.titleStr).fontWeight(.bold).foregroundColor(Color.white).padding([.leading, .bottom])
+                                } // Vstack
+                                    
+                                } // Zstack
+                        } // ForEach
+                    } // List
+                    .listStyle(PlainListStyle())
+            
+                
+            } //Vstack
             
             // Removes white space above title
             .navigationBarTitle("")
@@ -62,11 +80,10 @@ struct SearchBarView: View {
     
     func getSearchResultsData(for searchText: String) {
         let urlString = "\(SearchBarView.baseURL)\(searchText)"
-        print("URLString:")
-        print(urlString)
+//        print("URLString:")
+//        print(urlString)
         
         // encode URL to allow white space in search text
-//        guard let urlStringEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
         let urlStringEncoded = urlString.replacingOccurrences(of: " ", with: "%20")
         print(urlStringEncoded)
         
@@ -79,14 +96,10 @@ struct SearchBarView: View {
                 print(err)
             }
         }
-        
     } // func end
     
     func searchResults(for searchTextEntered: String) {
         if searchTextEntered.count >= 3 {
-            
-//            print("Search Text Entered")
-//            print(searchTextEntered)
             
             debouncer.renewInterval()
 //            print("renew interval")
