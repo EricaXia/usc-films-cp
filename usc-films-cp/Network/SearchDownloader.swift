@@ -8,6 +8,7 @@
 import SwiftUI
 
 final class SearchDownloader: ObservableObject{
+    
     @Published var movieD = [MovieD]()
     
     private var searchText: String
@@ -18,13 +19,12 @@ final class SearchDownloader: ObservableObject{
         self.searchText = searchText
     }
     
-    func getSearchResults() {
-        print("Get Search Results from backend")
-        getSearchResultsData(for: searchText)
-        
-    }
+//    func getSearchResults() {
+//        print("Get Search Results from backend")
+//        getSearchResultsData(for: searchText)
+//    }
 
-    private func getSearchResultsData(for searchText: String) {
+    func getSearchResultsData(for searchText: String) {
         let urlString = "\(Self.baseURL)/\(self.searchText)"
         print("URLString:")
         print(urlString)
