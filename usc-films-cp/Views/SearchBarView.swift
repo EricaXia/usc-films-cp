@@ -11,16 +11,22 @@ struct SearchBarView: View {
     
     @Environment(\.openURL) var openURL
     let movies = ["123", "Wonder woman", "Godzilla vs Kong", "Raya", "Minari", "Harry Potter and the chamber", "Harry Potter and the prisoner"]
-    let debouncer = Debouncer(timeInterval: 1.0)
+    let debouncer = Debouncer(timeInterval: 0.6)
     
     @State private var searchText : String = ""
     @State var search_results = [SearchResult]()
     static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
+//    static var baseURL = "http://localhost:8080/apis/search/"
+    
+    init() {
+//       UITableView.appearance().separatorStyle = .none
+       UITableViewCell.appearance().backgroundColor = .white
+       UITableView.appearance().backgroundColor = .white
+    }
     
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-//                Spacer()
                 Text("Search")
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -28,31 +34,29 @@ struct SearchBarView: View {
                     .padding(.top, 20)
                 
                 SearchBar(text: $searchText, onTextChanged: searchResults, placeholder: "Search Movies, TVs...")
-                
-//                List {
-//                    ForEach(self.movies.filter {
-//                        self.searchText.isEmpty ? true : $0.lowercased().contains(self.searchText.lowercased())
-//                    }, id: \.self) { movie in
-//                        Text(movie)
-//                    }
-//                } // List
-                
-                
+                    .padding(.top, -5.0)
+
                 List {
                     ForEach(self.search_results) {
                         movie in
                             VStack {
-                                Text(movie.idStr)
-                                Text(movie.mediaTypeStr)
-                                Text(movie.titleStr)
-                                Text(movie.yearStr)
-                                Text(movie.starRatingStr)
+                                
+                                Text("\(movie.mediaTypeStr)\(movie.yearStr)".uppercased()).fontWeight(.medium)
+                                HStack {
+                                    Image(systemName: "star.fill").foregroundColor(.red)
+                                    Text("\(movie.starRatingStr)").fontWeight(.medium)
+                                }
+                                Text(movie.titleStr).fontWeight(.medium)
                             } // Vstack
-                    }
-                }
+                    } // ForEach
+                } // List
                 
             } //vstack
+           
             
+            // Removes white space above title
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
         } // Navview
     } // body
     
@@ -60,7 +64,13 @@ struct SearchBarView: View {
         let urlString = "\(SearchBarView.baseURL)\(searchText)"
         print("URLString:")
         print(urlString)
-        NetworkManager<SearchResponse>.fetchData(from: urlString) { (result) in
+        
+        // encode URL to allow white space in search text
+//        guard let urlStringEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
+        let urlStringEncoded = urlString.replacingOccurrences(of: " ", with: "%20")
+        print(urlStringEncoded)
+        
+        NetworkManager<SearchResponse>.fetchData(from: urlStringEncoded) { (result) in
             switch result {
             case .success(let searchResponse):
                 self.search_results = searchResponse.results
