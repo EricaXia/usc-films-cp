@@ -30,7 +30,7 @@ final class DetailsDownloader: ObservableObject{
 
     private func getMovieDetailsData(for movie: Movie) {
         let urlString = "\(Self.baseURL)\(movie.mediaTypeStr)/\(movie.idStr)"
-        print(urlString)
+//        print(urlString)
         NetworkManager<MovieDetailsResponse>.fetchData(from: urlString) { (result) in
             switch result {
             case .success(let movieDetailsResponse):

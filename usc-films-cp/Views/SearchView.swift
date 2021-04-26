@@ -51,7 +51,7 @@ struct SearchView: View {
                 //                .padding(.horizontal)
                 //            )
                 
-                SearchBar(text: $searchText, placeholder: "Search Movies, TVs...")
+                SearchBar(text: $searchText, onTextChanged: searchResults, placeholder: "Search Movies, TVs...")
                 
                 List {
                     ForEach(self.movies.filter {
@@ -70,7 +70,8 @@ struct SearchView: View {
     
     
     func searchResults(for searchText: String) {
-        if !searchText.isEmpty {
+        // If length of search text is at least 3 chars, make the search
+        if searchText.count >= 3 {
             searchDownloader.getSearchResultsData(for: searchText)
         }
     }
@@ -80,23 +81,26 @@ struct SearchView: View {
 struct SearchBar: UIViewRepresentable {
     
     @Binding var text: String
+    var onTextChanged: (String) -> Void
     var placeholder: String
     
     class Coordinator: NSObject, UISearchBarDelegate {
-        
+        var onTextChanged: (String) -> Void
         @Binding var text: String
         
-        init(text: Binding<String>) {
+        init(text: Binding<String>, onTextChanged: @escaping (String) -> Void) {
             _text = text
+            self.onTextChanged = onTextChanged
         }
         
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
             text = searchText
+            onTextChanged(text)
         }
     }
     
     func makeCoordinator() -> SearchBar.Coordinator {
-        return Coordinator(text: $text)
+        return Coordinator(text: $text, onTextChanged: onTextChanged)
     }
     
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
