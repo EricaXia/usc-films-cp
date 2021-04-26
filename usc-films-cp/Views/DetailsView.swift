@@ -83,7 +83,7 @@ struct DetailsView: View {
                                 Button(action: { self.showMoreText.toggle()} )
                                     {Text(self.showMoreText ? "Show More" : "Show Less").font(.footnote).fontWeight(.medium).foregroundColor(Color.gray)}
                                     .padding(.leading, 250)
-                            }
+                            } // overview group
                             // CAST
                             if let castArr = movieDetails.cast {
                                 Text("Cast & Crew").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
@@ -116,7 +116,7 @@ struct DetailsView: View {
                                     }
                                 }
                                 .padding(.bottom, 10.0)
-                            }
+                            } // cast
                             
                             
                             // REVIEWS

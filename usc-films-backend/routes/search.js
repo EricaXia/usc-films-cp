@@ -23,8 +23,8 @@ searchRouter.get("/", (req, res) => {
                     search_data[i]["star_rating"] = (search_data[i]["vote_average"] / 2).toFixed(1);
                 }
 
-                // skip results that DON"T have backdrop image
-                if (search_data[i]["backdrop_path"]) {
+                // skip results that DON"T have images
+                if (search_data[i]["backdrop_path"] && search_data[i]["poster_path"]) {
                     search_data[i]["img_path"] = "https://image.tmdb.org/t/p/w500" + search_data[i]["backdrop_path"];
 
                     if (search_data[i]["release_date"]) {
@@ -41,6 +41,7 @@ searchRouter.get("/", (req, res) => {
                         "media_type": search_data[i]["media_type"],
                         "year": search_data[i]["year"],
                         "star_rating": search_data[i]["star_rating"],
+                        "poster_path": search_data[i]["poster_path"],
                         "img_path": search_data[i]["img_path"]
                         
                     });

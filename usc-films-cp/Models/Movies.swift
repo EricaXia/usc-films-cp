@@ -24,6 +24,10 @@ struct Movie: Codable, Identifiable, Hashable {
             return ""
         }
     }
+    // ADD from search results
+    var star_rating: String?
+    var img_path: String? // backdrop image
+    
     var mediaTypeStr: String {
         guard let media_type = media_type else { return "" }
         return "\(media_type)"
@@ -39,6 +43,14 @@ struct Movie: Codable, Identifiable, Hashable {
     var yearStr: String {
         guard let year = year else { return "" }
         return "(\(year))"
+    }
+    var starRatingStr: String {
+        guard let star_rating = star_rating else { return "" }
+        return "\(star_rating)"
+    }
+    var imgPath: String {
+        guard let img_path = img_path else { return "" }
+        return "\(img_path)"
     }
     
 }

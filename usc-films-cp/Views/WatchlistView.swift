@@ -63,7 +63,8 @@ struct WatchlistView: View {
                             NavigationLink(destination: DetailsView(movie: wl_movie)) {
                                 
                                 VStack {
-                                    KFImage(URL(string: wl_movie.PosterPath)!)
+//                                    KFImage(URL(string: wl_movie.PosterPath)!)
+                                    KFImage(URL(string: wl_movie.PosterPath))
                                         .resizable()
                                         .frame(width: 110, height: 165)
                                         .scaledToFill()
