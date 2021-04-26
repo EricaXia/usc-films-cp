@@ -19,13 +19,9 @@ final class DetailsDownloader: ObservableObject{
     }
     
     func getMovieDetails() {
-        print("Get Movie Details")
+//        print("Get Movie Details")
         getMovieDetailsData(for: movie)
         
-    }
-    
-    func getTVShowDetails() {
-        print("get tv show deets")
     }
 
     private func getMovieDetailsData(for movie: Movie) {

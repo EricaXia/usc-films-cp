@@ -14,7 +14,7 @@ struct SearchView: View {
     @ObservedObject var searchDownloader: SearchDownloader
     
     init() {
-        self.searchDownloader = SearchDownloader(searchText: "")
+        self.searchDownloader = SearchDownloader(searchText: "harry")
     }
     
     var body: some View {
@@ -30,26 +30,6 @@ struct SearchView: View {
                     .fontWeight(.bold)
                     .padding(.leading)
                     .padding(.top, 20)
-                
-                //            HStack {
-                //                TextField("Search Movies, TVs...", text: $searchText)
-                //                    .padding([.top, .bottom, .trailing], 5)
-                //                    .padding(.leading, 30)
-                //                    .frame(height: 40.0)
-                //                    .foregroundColor(Color(.systemGray2))
-                //
-                //            }
-                //            .background(Color(.systemGray5))
-                //            .cornerRadius(10)
-                //            .padding(.horizontal, 8.0)
-                //            .overlay(
-                //                HStack {
-                //                    Image(systemName: "magnifyingglass")
-                //                        .foregroundColor(.gray)
-                //                    Spacer()
-                //                }
-                //                .padding(.horizontal)
-                //            )
                 
                 SearchBar(text: $searchText, onTextChanged: searchResults, placeholder: "Search Movies, TVs...")
                 
@@ -122,3 +102,25 @@ struct SearchView_Previews: PreviewProvider {
         SearchView()
     }
 }
+
+
+// OLD search bar
+//            HStack {
+//                TextField("Search Movies, TVs...", text: $searchText)
+//                    .padding([.top, .bottom, .trailing], 5)
+//                    .padding(.leading, 30)
+//                    .frame(height: 40.0)
+//                    .foregroundColor(Color(.systemGray2))
+//
+//            }
+//            .background(Color(.systemGray5))
+//            .cornerRadius(10)
+//            .padding(.horizontal, 8.0)
+//            .overlay(
+//                HStack {
+//                    Image(systemName: "magnifyingglass")
+//                        .foregroundColor(.gray)
+//                    Spacer()
+//                }
+//                .padding(.horizontal)
+//            )
