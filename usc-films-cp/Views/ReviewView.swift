@@ -46,7 +46,7 @@ struct ReviewView: View {
             }
         }.onAppear {
             detailsDownloader.getMovieDetails()
-            print("Details downloaded in review view")
+            print("Review View Loaded")
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
                 self.isDelay = true;
             }
