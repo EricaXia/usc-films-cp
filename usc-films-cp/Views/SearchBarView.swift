@@ -20,6 +20,8 @@ struct SearchBarView: View {
     static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
     //    static var baseURL = "http://localhost:8080/apis/search/"
     
+    @State var showNoResults = false
+    
     init() {
         UITableViewCell.appearance().backgroundColor = .white
         UITableView.appearance().separatorStyle = .none
@@ -49,63 +51,73 @@ struct SearchBarView: View {
                 
                 Spacer()
                 
-                if (isSearching) {
-                    if (self.search_results.count > 0) {
-                        List {
-                        ForEach(self.search_results) {
-                            movie in
-                            NavigationLink(destination: DetailsView(movie: movie)){
-                                ZStack() {
-                                    KFImage(URL(string: movie.imgPath)!)
-                                        .resizable()
-                                        .frame(width: 350, height: 190) // 196
-                                        .cornerRadius(15)
-                                        .shadow(radius: 1)
-                                    VStack(alignment: .leading) {
-                                        HStack {
-                                            // MOVIE YEAR
-                                            Text("\(movie.mediaTypeStr)\(movie.yearStr)".uppercased()).fontWeight(.bold).foregroundColor(Color.white)
-                                            Spacer()
-                                            // STAR RATING
-                                            HStack {
-                                                Image(systemName: "star.fill").foregroundColor(.red)
-                                                Text("\(movie.starRatingStr)").fontWeight(.bold).foregroundColor(Color.white)
-                                            } // HStack
-                                        } // HStack
-                                        .padding([.top, .leading, .trailing])
-                                        Spacer()
-                                        // MOVIE TITLE
-                                        Text(movie.titleStr).fontWeight(.bold).foregroundColor(Color.white).padding([.leading, .bottom])
-                                    } // Vstack
-                                } // Nav Link
-                            } // Zstack
-                        } // ForEach
-    //                    } // end if
-                            
-                    
-                    } // List
-                    .listStyle(PlainListStyle())
-                    } //end if count > 0
-                    
-                // TODO: debounce the No Results msg so it doesnt show too soon
-                else if (self.search_results.count == 0) {
-                    HStack(alignment: .top) {
-                        Spacer()
-                        Text("No Results").foregroundColor(.gray).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).multilineTextAlignment(.center)
-                        Spacer()
-                    }.padding(.bottom)
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                } // end else if
+                Group {
+                    if (isSearching) {
+                        if (self.search_results.count > 0) {
+                            List {
+                                ForEach(self.search_results) {
+                                    movie in
+                                    NavigationLink(destination: DetailsView(movie: movie)){
+                                        ZStack() {
+                                            KFImage(URL(string: movie.imgPath)!)
+                                                .resizable()
+                                                .frame(width: 350, height: 190) // 196
+                                                .cornerRadius(15)
+                                                .shadow(radius: 1)
+                                            VStack(alignment: .leading) {
+                                                HStack {
+                                                    // MOVIE YEAR
+                                                    Text("\(movie.mediaTypeStr)\(movie.yearStr)".uppercased()).fontWeight(.bold).foregroundColor(Color.white)
+                                                    Spacer()
+                                                    // STAR RATING
+                                                    HStack {
+                                                        Image(systemName: "star.fill").foregroundColor(.red)
+                                                        Text("\(movie.starRatingStr)").fontWeight(.bold).foregroundColor(Color.white)
+                                                    } // HStack
+                                                } // HStack
+                                                .padding([.top, .leading, .trailing])
+                                                Spacer()
+                                                // MOVIE TITLE
+                                                Text(movie.titleStr).fontWeight(.bold).foregroundColor(Color.white).padding([.leading, .bottom])
+                                            } // Vstack
+                                        } // Nav Link
+                                    } // Zstack
+                                } // ForEach
+                                
+                            } // List
+                            .listStyle(PlainListStyle())
+                        } //end if count > 0
+                        
+                        else if (self.search_results.count == 0) {
+                            if (showNoResults) {
+                                HStack(alignment: .top) {
+                                    Spacer()
+                                    Text("No Results").foregroundColor(.gray).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).multilineTextAlignment(.center)
+                                    Spacer()
+                                }.padding(.bottom)
+                                Spacer()
+                                Spacer()
+                                Spacer()
+                                Spacer()
+                                Spacer()
+                                Spacer()
+                            }
+                        } // end else if
+                    } // end if isSearching
+                } // Group
                 
-            } // end if isSearching
-            
+                // Prevents No Results msg from appearing too soon
+                .onAppear() {
+                    Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { (_) in
+                        withAnimation {
+                            self.showNoResults = true
+                        }
+                    }
+                } //onAppear
                 
             } //Vstack
+            
+            
             
             // Removes white space above title
             .navigationBarTitle("")
@@ -169,11 +181,8 @@ struct SearchBar: UIViewRepresentable {
             searching = true
             isSearching = true
             searchBar.showsCancelButton = true
-//            tableView.reloadData()
-            
             text = searchText
             onTextChanged(text)
-            
         } // searchBar
         
         func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -182,11 +191,10 @@ struct SearchBar: UIViewRepresentable {
             searchBar.showsCancelButton = false
             searchBar.endEditing(true)
             searchBar.text = ""
-    //        tableView.reloadData()
         }
     } // Coordinator
     
-
+    
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
