@@ -46,10 +46,6 @@ struct SearchBarView: View {
                     SearchBar(text: $searchText, onTextChanged: searchResults, placeholder: "Search Movies, TVs...")
                         .padding(.top, -5.0)
                     
-//                    Button("Cancel") {
-//                        print("cancel input")
-//                    }
-//                    .padding(.trailing)
                     
                 } // Hstack
                 
@@ -131,11 +127,11 @@ struct SearchBar: UIViewRepresentable {
     var onTextChanged: (String) -> Void
     var placeholder: String
     
-    let searchController = UISearchController(searchResultsController: nil)
-        var isSearchBarEmpty: Bool {
-            return searchController.searchBar.text?.isEmpty ?? true
-        }
-        var searching = false
+//    let searchController = UISearchController(searchResultsController: nil)
+//    var isSearchBarEmpty: Bool {
+//        return searchController.searchBar.text?.isEmpty ?? true
+//    }
+//    @State var searching = false
     
     
     class Coordinator: NSObject, UISearchBarDelegate {
@@ -161,15 +157,18 @@ struct SearchBar: UIViewRepresentable {
             onTextChanged(text)
             
         } // searchBar
+        
+        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+            searching = false
+    //        searchBar.text = nil
+            searchBar.showsCancelButton = false
+            searchBar.endEditing(true)
+            searchBar.text = ""
+    //        tableView.reloadData()
+        }
     } // Coordinator
     
-    mutating func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.searching = false
-        searchBar.text = nil
-        searchBar.showsCancelButton = false
-        searchBar.endEditing(true)
-//        tableView.reloadData()
-    }
+
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
