@@ -12,9 +12,9 @@ struct SearchBarView: View {
     
     @Environment(\.openURL) var openURL
     
-    let debouncer = Debouncer(timeInterval: 0.5)
+    let debouncer = Debouncer(timeInterval: 0.6)
     
-    @State private var isSearching = false
+    @State private var isSearching = false  // var to pass to SearchBar struct
     @State private var searchText : String = ""
     @State var search_results = [Movie]()
     static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
@@ -43,7 +43,7 @@ struct SearchBarView: View {
                     .padding(.top, 20)
                 
                 HStack {
-                    SearchBar(text: $searchText, onTextChanged: searchResults, placeholder: "Search Movies, TVs...")
+                    SearchBar(isSearching: $isSearching, text: $searchText, onTextChanged: showSearchResults, placeholder: "Search Movies, TVs...")
                         .padding(.top, -5.0)
                 } // Hstack
                 
@@ -51,44 +51,43 @@ struct SearchBarView: View {
                 
                 if (isSearching) {
                     if (self.search_results.count > 0) {
-
-                List {
-//                    if (self.search_results.count > 0) {
-                    ForEach(self.search_results) {
-                        movie in
-                        NavigationLink(destination: DetailsView(movie: movie)){
-                            ZStack() {
-                                KFImage(URL(string: movie.imgPath)!)
-                                    .resizable()
-                                    .frame(width: 350, height: 190) // 196
-                                    .cornerRadius(15)
-                                    .shadow(radius: 1)
-                                VStack(alignment: .leading) {
-                                    HStack {
-                                        // MOVIE YEAR
-                                        Text("\(movie.mediaTypeStr)\(movie.yearStr)".uppercased()).fontWeight(.bold).foregroundColor(Color.white)
-                                        Spacer()
-                                        // STAR RATING
+                        List {
+                        ForEach(self.search_results) {
+                            movie in
+                            NavigationLink(destination: DetailsView(movie: movie)){
+                                ZStack() {
+                                    KFImage(URL(string: movie.imgPath)!)
+                                        .resizable()
+                                        .frame(width: 350, height: 190) // 196
+                                        .cornerRadius(15)
+                                        .shadow(radius: 1)
+                                    VStack(alignment: .leading) {
                                         HStack {
-                                            Image(systemName: "star.fill").foregroundColor(.red)
-                                            Text("\(movie.starRatingStr)").fontWeight(.bold).foregroundColor(Color.white)
+                                            // MOVIE YEAR
+                                            Text("\(movie.mediaTypeStr)\(movie.yearStr)".uppercased()).fontWeight(.bold).foregroundColor(Color.white)
+                                            Spacer()
+                                            // STAR RATING
+                                            HStack {
+                                                Image(systemName: "star.fill").foregroundColor(.red)
+                                                Text("\(movie.starRatingStr)").fontWeight(.bold).foregroundColor(Color.white)
+                                            } // HStack
                                         } // HStack
-                                    } // HStack
-                                    .padding([.top, .leading, .trailing])
-                                    Spacer()
-                                    // MOVIE TITLE
-                                    Text(movie.titleStr).fontWeight(.bold).foregroundColor(Color.white).padding([.leading, .bottom])
-                                } // Vstack
-                            } // Nav Link
-                        } // Zstack
-                    } // ForEach
-//                    } // end if
-                        
-                
-                } // List
-                .listStyle(PlainListStyle())
-                } //end if count > 0
+                                        .padding([.top, .leading, .trailing])
+                                        Spacer()
+                                        // MOVIE TITLE
+                                        Text(movie.titleStr).fontWeight(.bold).foregroundColor(Color.white).padding([.leading, .bottom])
+                                    } // Vstack
+                                } // Nav Link
+                            } // Zstack
+                        } // ForEach
+    //                    } // end if
+                            
                     
+                    } // List
+                    .listStyle(PlainListStyle())
+                    } //end if count > 0
+                    
+                // TODO: debounce the No Results msg so it doesnt show too soon
                 else if (self.search_results.count == 0) {
                     HStack(alignment: .top) {
                         Spacer()
@@ -132,33 +131,35 @@ struct SearchBarView: View {
         }
     } // func end
     
-    func searchResults(for searchTextEntered: String) {
+    func showSearchResults(for searchTextEntered: String) {
         if searchTextEntered.count >= 3 {
-            
             debouncer.renewInterval()
             debouncer.handler = {
                 isSearching = true
                 self.getSearchResultsData(for: searchTextEntered)
             } // debouncer.handler
         } // if end
-    } // func searchResults
+    } // func showSearchResults
 } // SearchView struct
 
 struct SearchBar: UIViewRepresentable {
     
+    @Binding var isSearching: Bool
     @Binding var text: String
     var onTextChanged: (String) -> Void
     var placeholder: String
     
     class Coordinator: NSObject, UISearchBarDelegate {
         
+        @Binding var isSearching: Bool
         @State var searching = false
         
         var onTextChanged: (String) -> Void
         @Binding var text: String
         
-        init(text: Binding<String>, onTextChanged: @escaping (String) -> Void) {
+        init(isSearching: Binding<Bool>, text: Binding<String>, onTextChanged: @escaping (String) -> Void) {
             _text = text
+            _isSearching = isSearching
             self.onTextChanged = onTextChanged
         }
         
@@ -166,6 +167,7 @@ struct SearchBar: UIViewRepresentable {
             let cancelButtonAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
             UIBarButtonItem.appearance().setTitleTextAttributes(cancelButtonAttributes , for: .normal)
             searching = true
+            isSearching = true
             searchBar.showsCancelButton = true
 //            tableView.reloadData()
             
@@ -176,9 +178,9 @@ struct SearchBar: UIViewRepresentable {
         
         func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
             searching = false
+            isSearching = false
             searchBar.showsCancelButton = false
             searchBar.endEditing(true)
-            //        searchBar.text = nil
             searchBar.text = ""
     //        tableView.reloadData()
         }
@@ -195,7 +197,7 @@ struct SearchBar: UIViewRepresentable {
     }
     
     func makeCoordinator() -> SearchBar.Coordinator {
-        return Coordinator(text: $text, onTextChanged: onTextChanged)
+        return Coordinator(isSearching: $isSearching, text: $text, onTextChanged: onTextChanged)
     }
     
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
