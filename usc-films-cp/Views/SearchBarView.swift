@@ -14,7 +14,7 @@ struct SearchBarView: View {
     
     let debouncer = Debouncer(timeInterval: 0.5)
     
-    
+    @State private var isSearching = false
     @State private var searchText : String = ""
     @State var search_results = [Movie]()
     static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
@@ -22,6 +22,7 @@ struct SearchBarView: View {
     
     init() {
         UITableViewCell.appearance().backgroundColor = .white
+        UITableView.appearance().separatorStyle = .none
         UITableView.appearance().backgroundColor = .white
     }
     
@@ -49,10 +50,9 @@ struct SearchBarView: View {
                     
                 } // Hstack
                 
-                
-                
-                
                 List {
+                    if (isSearching) {
+                    if (self.search_results.count > 0) {
                     ForEach(self.search_results) {
                         movie in
                         NavigationLink(destination: DetailsView(movie: movie)){
@@ -81,6 +81,16 @@ struct SearchBarView: View {
                             } // Nav Link
                         } // Zstack
                     } // ForEach
+                    } // end if
+                    else {
+                        Text("No Results")
+                            .fontWeight(.medium)
+                            .foregroundColor(Color.gray)
+                            .font(.title)
+                            .multilineTextAlignment(.center)
+                    }
+                        
+                    } // end if
                 } // List
                 .listStyle(PlainListStyle())
                 
@@ -113,8 +123,10 @@ struct SearchBarView: View {
     
     func searchResults(for searchTextEntered: String) {
         if searchTextEntered.count >= 3 {
+            
             debouncer.renewInterval()
             debouncer.handler = {
+                isSearching = true
                 self.getSearchResultsData(for: searchTextEntered)
             } // debouncer.handler
         } // if end
@@ -126,13 +138,6 @@ struct SearchBar: UIViewRepresentable {
     @Binding var text: String
     var onTextChanged: (String) -> Void
     var placeholder: String
-    
-//    let searchController = UISearchController(searchResultsController: nil)
-//    var isSearchBarEmpty: Bool {
-//        return searchController.searchBar.text?.isEmpty ?? true
-//    }
-//    @State var searching = false
-    
     
     class Coordinator: NSObject, UISearchBarDelegate {
         
@@ -160,9 +165,9 @@ struct SearchBar: UIViewRepresentable {
         
         func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
             searching = false
-    //        searchBar.text = nil
             searchBar.showsCancelButton = false
             searchBar.endEditing(true)
+            //        searchBar.text = nil
             searchBar.text = ""
     //        tableView.reloadData()
         }
