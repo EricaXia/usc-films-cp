@@ -43,16 +43,17 @@ struct SearchBarView: View {
                     .padding(.top, 20)
                 
                 HStack {
-                    
                     SearchBar(text: $searchText, onTextChanged: searchResults, placeholder: "Search Movies, TVs...")
                         .padding(.top, -5.0)
-                    
-                    
                 } // Hstack
                 
-                List {
-                    if (isSearching) {
+                Spacer()
+                
+                if (isSearching) {
                     if (self.search_results.count > 0) {
+
+                List {
+//                    if (self.search_results.count > 0) {
                     ForEach(self.search_results) {
                         movie in
                         NavigationLink(destination: DetailsView(movie: movie)){
@@ -81,19 +82,29 @@ struct SearchBarView: View {
                             } // Nav Link
                         } // Zstack
                     } // ForEach
-                    } // end if
-                    else {
-                        Text("No Results")
-                            .fontWeight(.medium)
-                            .foregroundColor(Color.gray)
-                            .font(.title)
-                            .multilineTextAlignment(.center)
-                    }
+//                    } // end if
                         
-                    } // end if
+                
                 } // List
                 .listStyle(PlainListStyle())
+                } //end if count > 0
+                    
+                else if (self.search_results.count == 0) {
+                    HStack(alignment: .top) {
+                        Spacer()
+                        Text("No Results").foregroundColor(.gray).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).multilineTextAlignment(.center)
+                        Spacer()
+                    }.padding(.bottom)
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                    Spacer()
+                } // end else if
                 
+            } // end if isSearching
+            
                 
             } //Vstack
             
