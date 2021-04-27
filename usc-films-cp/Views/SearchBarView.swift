@@ -108,7 +108,7 @@ struct SearchBarView: View {
                 
                 // Prevents No Results msg from appearing too soon
                 .onAppear() {
-                    Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { (_) in
+                    Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (_) in
                         withAnimation {
                             self.showNoResults = true
                         }
@@ -186,25 +186,29 @@ struct SearchBar: UIViewRepresentable {
         } // searchBar
         
         func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            print("Cancel btn clicked")
             searching = false
             isSearching = false
             text = ""
-            //            searchBar.text = ""
             searchBar.showsCancelButton = false
             searchBar.endEditing(true)
-
         }
+        
+        func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+            searchBar.setShowsCancelButton(true, animated: true)
+        }
+        
+        func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+            searchBar.setShowsCancelButton(false, animated: true)
+        }
+        
+        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+            searchBar.endEditing(true)
+        }
+    
     } // Coordinator
     
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(true, animated: true)
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(false, animated: true)
-    }
+
     
     func makeCoordinator() -> SearchBar.Coordinator {
         return Coordinator(isSearching: $isSearching, text: $text, onTextChanged: onTextChanged)
@@ -212,10 +216,12 @@ struct SearchBar: UIViewRepresentable {
     
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
         let searchBar = UISearchBar(frame: .zero)
+        searchBar.becomeFirstResponder() // show keyboard??
         searchBar.delegate = context.coordinator
         searchBar.placeholder = placeholder
         searchBar.searchBarStyle = .minimal
         searchBar.autocapitalizationType = .none
+//        searchBar.becomeFirstResponder() // show keyboard??
         return searchBar
     }
     
