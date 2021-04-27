@@ -14,10 +14,11 @@ struct SearchBarView: View {
     
     let debouncer = Debouncer(timeInterval: 0.5)
     
+    
     @State private var searchText : String = ""
     @State var search_results = [Movie]()
-        static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
-//    static var baseURL = "http://localhost:8080/apis/search/"
+    static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
+    //    static var baseURL = "http://localhost:8080/apis/search/"
     
     init() {
         UITableViewCell.appearance().backgroundColor = .white
@@ -29,7 +30,7 @@ struct SearchBarView: View {
             
             VStack(alignment: .leading) {
                 
-//                 For testing only - TODO delete later
+                // For testing only - TODO delete later
                 Button ("[TESTING] Delete watchlist") {
                     UserDefaults.standard.removeObject(forKey: "watchlist")
                 }
@@ -39,8 +40,20 @@ struct SearchBarView: View {
                     .fontWeight(.bold)
                     .padding(.leading)
                     .padding(.top, 20)
-                SearchBar(text: $searchText, onTextChanged: searchResults, placeholder: "Search Movies, TVs...")
-                    .padding(.top, -5.0)
+                
+                HStack {
+                    
+                    SearchBar(text: $searchText, onTextChanged: searchResults, placeholder: "Search Movies, TVs...")
+                        .padding(.top, -5.0)
+                    
+//                    Button("Cancel") {
+//                        print("cancel input")
+//                    }
+//                    .padding(.trailing)
+                    
+                } // Hstack
+                
+                
                 
                 
                 List {
@@ -95,7 +108,7 @@ struct SearchBarView: View {
             switch result {
             case .success(let searchResponse):
                 self.search_results = searchResponse.results
-//                print(search_results)
+            //                print(search_results)
             case .failure(let err):
                 print(err)
             }
@@ -110,7 +123,6 @@ struct SearchBarView: View {
             } // debouncer.handler
         } // if end
     } // func searchResults
-    
 } // SearchView struct
 
 struct SearchBar: UIViewRepresentable {
@@ -119,7 +131,17 @@ struct SearchBar: UIViewRepresentable {
     var onTextChanged: (String) -> Void
     var placeholder: String
     
+    let searchController = UISearchController(searchResultsController: nil)
+        var isSearchBarEmpty: Bool {
+            return searchController.searchBar.text?.isEmpty ?? true
+        }
+        var searching = false
+    
+    
     class Coordinator: NSObject, UISearchBarDelegate {
+        
+        @State var searching = false
+        
         var onTextChanged: (String) -> Void
         @Binding var text: String
         
@@ -129,9 +151,32 @@ struct SearchBar: UIViewRepresentable {
         }
         
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            let cancelButtonAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
+            UIBarButtonItem.appearance().setTitleTextAttributes(cancelButtonAttributes , for: .normal)
+            searching = true
+            searchBar.showsCancelButton = true
+//            tableView.reloadData()
+            
             text = searchText
             onTextChanged(text)
-        }
+            
+        } // searchBar
+    } // Coordinator
+    
+    mutating func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.searching = false
+        searchBar.text = nil
+        searchBar.showsCancelButton = false
+        searchBar.endEditing(true)
+//        tableView.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
     }
     
     func makeCoordinator() -> SearchBar.Coordinator {
