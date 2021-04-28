@@ -20,7 +20,7 @@ struct SearchBarView: View {
     static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
     //    static var baseURL = "http://localhost:8080/apis/search/"
     
-    @State var showNoResults = false
+    @State private var showNoResults = false
     
     init() {
         UITableViewCell.appearance().backgroundColor = .white
@@ -33,10 +33,10 @@ struct SearchBarView: View {
             
             VStack(alignment: .leading) {
                 
-                // For testing only - TODO delete later
-                Button ("[TESTING] Delete watchlist") {
-                    UserDefaults.standard.removeObject(forKey: "watchlist")
-                }
+//                // For testing only - TODO delete later
+//                Button ("[TESTING] Delete watchlist") {
+//                    UserDefaults.standard.removeObject(forKey: "watchlist")
+//                }
                 
                 Text("Search")
                     .font(.largeTitle)
@@ -45,7 +45,7 @@ struct SearchBarView: View {
                     .padding(.top, 20)
                 
                 HStack {
-                    SearchBar(search_results: $search_results, isSearching: $isSearching, text: $searchText, onTextChanged: showSearchResults, placeholder: "Search Movies, TVs...")
+                    SearchBar(search_results: $search_results, isSearching: $isSearching, showNoResults: $showNoResults, text: $searchText, onTextChanged: showSearchResults, placeholder: "Search Movies, TVs...")
                         .padding(.top, -5.0)
                 } // Hstack
                 
@@ -54,6 +54,8 @@ struct SearchBarView: View {
                 Group {
                     if (isSearching) {
                         if (self.search_results.count > 0) {
+                            
+                            VStack {
                             List {
                                 ForEach(self.search_results) {
                                     movie in
@@ -86,39 +88,41 @@ struct SearchBarView: View {
                                 
                             } // List
                             .listStyle(PlainListStyle())
+                            } // VStack
+                            
                         } //end if count > 0
                         
-                        else if (self.search_results.count == 0) {
-//                            if (showNoResults) {
-                                HStack(alignment: .top) {
+                        VStack {
+                                if (showNoResults) {
+                                    HStack(alignment: .top) {
+                                        Spacer()
+                                        Text("No Results").foregroundColor(.gray).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).multilineTextAlignment(.center)
+                                        Spacer()
+                                    }.padding(.bottom)
                                     Spacer()
-                                    Text("No Results").foregroundColor(.gray).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).multilineTextAlignment(.center)
                                     Spacer()
-                                }.padding(.bottom)
-                                Spacer()
-                                Spacer()
-                                Spacer()
-                                Spacer()
-                                Spacer()
-                                Spacer()
-//                            } // showNoResults
-                        } // end else if
+                                    Spacer()
+                                    Spacer()
+                                    Spacer()
+                                    Spacer()
+                                } // showNoResults
+                            } // Vstack
+                            .onAppear() {
+                                
+                                Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (_) in
+                                    withAnimation {
+                                        if (self.search_results.count == 0) {
+                                            print("Timer triggered")
+                                            self.showNoResults = true
+                                        } // end if
+                                    } // withAnimation
+                                    } // timer
+                                
+                            } //onAppear
                     } // end if isSearching
                 } // Group
-                
-//                // Prevents No Results msg from appearing too soon
-//                .onAppear() {
-//                    Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (_) in
-//                        withAnimation {
-//                            self.showNoResults = true
-//                        }
-//                    }
-//                } //onAppear
-                
             } //Vstack
-            
-            
-            
+
             // Removes white space above title
             .navigationBarTitle("")
             .navigationBarHidden(true)
@@ -145,6 +149,7 @@ struct SearchBarView: View {
     
     func showSearchResults(for searchTextEntered: String) {
         if searchTextEntered.count >= 3 {
+            showNoResults = false
             debouncer.renewInterval()
             debouncer.handler = {
                 isSearching = true
@@ -158,6 +163,7 @@ struct SearchBar: UIViewRepresentable {
     
     @Binding var search_results: Array<Movie>
     @Binding var isSearching: Bool
+    @Binding var showNoResults: Bool
     @Binding var text: String
     var onTextChanged: (String) -> Void
     var placeholder: String
@@ -166,14 +172,16 @@ struct SearchBar: UIViewRepresentable {
         
         @Binding var search_results: Array<Movie>
         @Binding var isSearching: Bool
+        @Binding var showNoResults: Bool
         @State var searching = false
         
         var onTextChanged: (String) -> Void
         @Binding var text: String
         
-        init(isSearching: Binding<Bool>, search_results:Binding<Array<Movie>>, text: Binding<String>, onTextChanged: @escaping (String) -> Void) {
+        init(isSearching: Binding<Bool>, search_results:Binding<Array<Movie>>, showNoResults: Binding<Bool>, text: Binding<String>, onTextChanged: @escaping (String) -> Void) {
             _text = text
             _isSearching = isSearching
+            _showNoResults = showNoResults
             _search_results = search_results
             self.onTextChanged = onTextChanged
         }
@@ -191,6 +199,7 @@ struct SearchBar: UIViewRepresentable {
         func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
             searching = false
             isSearching = false
+            showNoResults = false
             text = ""
             search_results.removeAll()  // clear results when cancel btn is clicked
             searchBar.showsCancelButton = false
@@ -215,7 +224,7 @@ struct SearchBar: UIViewRepresentable {
 
     
     func makeCoordinator() -> SearchBar.Coordinator {
-        return Coordinator(isSearching: $isSearching, search_results: $search_results, text: $text, onTextChanged: onTextChanged)
+        return Coordinator(isSearching: $isSearching, search_results: $search_results, showNoResults: $showNoResults, text: $text, onTextChanged: onTextChanged)
     }
     
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
