@@ -32,15 +32,12 @@ struct WatchlistView: View {
         
     var body: some View {
         NavigationView {
-            
-        
         ScrollView {
             
             // For testing only
 //            Button ("[TESTING] Delete watchlist") {
 //                UserDefaults.standard.removeObject(forKey: "watchlist")
 //            }
-            
             
             if isWLEmpty {
                 VStack {
@@ -55,7 +52,8 @@ struct WatchlistView: View {
             } // end if isWLEmpty
             
             else {
-                HStack(alignment: .top) {
+//                HStack(alignment: .top) {
+                VStack(alignment: .leading) {
                     Text("Watchlist")
                         .font(.title)
                         .fontWeight(.bold)
@@ -63,8 +61,9 @@ struct WatchlistView: View {
                         .padding(.horizontal)
                     Spacer()
                     
-                }
-                HStack {
+//                } // HStack
+//                HStack {
+                    
                     LazyVGrid(columns: threeColumnGrid, alignment: .center, spacing: 4) {
                         ForEach(watchlist.removingDuplicates()) {
                             wl_movie in
@@ -79,7 +78,6 @@ struct WatchlistView: View {
                                         .clipped()
                                 }
                             } // end NavLink
-                            
                             .contextMenu {
                                 Button{
                                     print("Removing from watchList")
@@ -89,12 +87,14 @@ struct WatchlistView: View {
                                 } label: {
                                     Label("Remove from watchList", systemImage: "bookmark.fill")
                                 }
-                            }
+                            } // contextMenu
                             
-                        }
-                    }
-                } // end Hstack
-            }
+                        } // ForEach
+                    } // LazyVGrid
+                } // Vstack
+                .padding(.top, -50)
+                
+            } // else (if WL is not empty)
         } // ScrollView
         .onAppear {
             print("Load watchlist view")
