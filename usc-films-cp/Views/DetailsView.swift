@@ -33,7 +33,7 @@ struct DetailsView: View {
     @State var showMoreText = true
     
     // For watchlist:
-    @AppStorage("watchlist") var watchlist: [Movie] = []
+    @AppStorage("watchlist") var watchlist: [Movie] = [Movie]()
     @State private var isToastShown = false
     @State private var isMovieOnWL = false
     @State var btnText = "Add to watchlist"

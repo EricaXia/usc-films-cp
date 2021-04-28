@@ -22,7 +22,7 @@ extension Array where Element: Hashable {
 }
 
 struct WatchlistView: View {
-    @AppStorage("watchlist") var watchlist: [Movie] = []
+    @AppStorage("watchlist") var watchlist: [Movie] = [Movie]()
     @State var isWLEmpty = true
     private var threeColumnGrid = [
         GridItem(.fixed(110), spacing: 4),

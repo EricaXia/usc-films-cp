@@ -332,6 +332,7 @@ struct HomeView: View {
                 .toast(isPresented: self.$isToastShown_TR) {
                     HStack {
                         Text("\(self.ToastMsg_TR) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
+                            .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding()
@@ -429,6 +430,7 @@ struct HomeView: View {
                 .toast(isPresented: self.$isToastShown_TR) {
                     HStack {
                         Text("\(self.ToastMsg_TR) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
+                            .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding()
@@ -528,6 +530,7 @@ struct HomeView: View {
                 .toast(isPresented: self.$isToastShown_Pop) {
                     HStack {
                         Text("\(self.ToastMsg_Pop) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
+                            .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding()
@@ -626,6 +629,7 @@ struct HomeView: View {
                 .toast(isPresented: self.$isToastShown_Pop) {
                     HStack {
                         Text("\(self.ToastMsg_Pop) \(self.isMovieOnWL ? "was added to Watchlist" : "was removed from Watchlist")")
+                            .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding()
