@@ -12,11 +12,11 @@ struct SearchBarView: View {
     
     @Environment(\.openURL) var openURL
     
-    let debouncer = Debouncer(timeInterval: 0.6)
+    let debouncer = Debouncer(timeInterval: 0.9)
     
-    @State private var isSearching = false  // var to pass to SearchBar struct
     @State private var searchText : String = ""
-    @State var search_results = [Movie]()
+    @State private var isSearching = false  // var to pass to SearchBar struct
+    @State var search_results = [Movie]() // pass to SearchBar to clear results on cancel
     static var baseURL = "http://uscfilmsbackend-env.eba-gpz54xj7.us-east-2.elasticbeanstalk.com/apis/search/"
     //    static var baseURL = "http://localhost:8080/apis/search/"
     
@@ -45,7 +45,7 @@ struct SearchBarView: View {
                     .padding(.top, 20)
                 
                 HStack {
-                    SearchBar(isSearching: $isSearching, text: $searchText, onTextChanged: showSearchResults, placeholder: "Search Movies, TVs...")
+                    SearchBar(search_results: $search_results, isSearching: $isSearching, text: $searchText, onTextChanged: showSearchResults, placeholder: "Search Movies, TVs...")
                         .padding(.top, -5.0)
                 } // Hstack
                 
@@ -89,7 +89,7 @@ struct SearchBarView: View {
                         } //end if count > 0
                         
                         else if (self.search_results.count == 0) {
-                            if (showNoResults) {
+//                            if (showNoResults) {
                                 HStack(alignment: .top) {
                                     Spacer()
                                     Text("No Results").foregroundColor(.gray).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).multilineTextAlignment(.center)
@@ -101,19 +101,19 @@ struct SearchBarView: View {
                                 Spacer()
                                 Spacer()
                                 Spacer()
-                            }
+//                            } // showNoResults
                         } // end else if
                     } // end if isSearching
                 } // Group
                 
-                // Prevents No Results msg from appearing too soon
-                .onAppear() {
-                    Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (_) in
-                        withAnimation {
-                            self.showNoResults = true
-                        }
-                    }
-                } //onAppear
+//                // Prevents No Results msg from appearing too soon
+//                .onAppear() {
+//                    Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { (_) in
+//                        withAnimation {
+//                            self.showNoResults = true
+//                        }
+//                    }
+//                } //onAppear
                 
             } //Vstack
             
@@ -156,6 +156,7 @@ struct SearchBarView: View {
 
 struct SearchBar: UIViewRepresentable {
     
+    @Binding var search_results: Array<Movie>
     @Binding var isSearching: Bool
     @Binding var text: String
     var onTextChanged: (String) -> Void
@@ -163,15 +164,17 @@ struct SearchBar: UIViewRepresentable {
     
     class Coordinator: NSObject, UISearchBarDelegate {
         
+        @Binding var search_results: Array<Movie>
         @Binding var isSearching: Bool
         @State var searching = false
         
         var onTextChanged: (String) -> Void
         @Binding var text: String
         
-        init(isSearching: Binding<Bool>, text: Binding<String>, onTextChanged: @escaping (String) -> Void) {
+        init(isSearching: Binding<Bool>, search_results:Binding<Array<Movie>>, text: Binding<String>, onTextChanged: @escaping (String) -> Void) {
             _text = text
             _isSearching = isSearching
+            _search_results = search_results
             self.onTextChanged = onTextChanged
         }
         
@@ -189,6 +192,7 @@ struct SearchBar: UIViewRepresentable {
             searching = false
             isSearching = false
             text = ""
+            search_results.removeAll()  // clear results when cancel btn is clicked
             searchBar.showsCancelButton = false
             searchBar.endEditing(true)
         }
@@ -211,7 +215,7 @@ struct SearchBar: UIViewRepresentable {
 
     
     func makeCoordinator() -> SearchBar.Coordinator {
-        return Coordinator(isSearching: $isSearching, text: $text, onTextChanged: onTextChanged)
+        return Coordinator(isSearching: $isSearching, search_results: $search_results, text: $text, onTextChanged: onTextChanged)
     }
     
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
