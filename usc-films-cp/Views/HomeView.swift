@@ -36,7 +36,7 @@ struct HomeView: View {
     @State var isDelay = false
     
     // For watchlist:
-    @AppStorage("watchlist") var watchlist: [Movie] = []
+    @AppStorage("watchlist") var watchlist: [Movie] = [Movie]()
     @State private var isToastShown_TR = false
     @State private var isToastShown_Pop = false
     @State private var isMovieOnWL = false
