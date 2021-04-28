@@ -31,6 +31,9 @@ struct WatchlistView: View {
     ]
         
     var body: some View {
+        NavigationView {
+            
+        
         ScrollView {
             
             // For testing only
@@ -40,11 +43,16 @@ struct WatchlistView: View {
             
             
             if isWLEmpty {
-                Text("Watchlist is empty")
-                    .font(.title2)
-                    .foregroundColor(Color.gray)
-                    .padding(.top, 350.0)
-            }
+                VStack {
+                    Spacer()
+                    Spacer()
+                    Text("Watchlist is empty")
+                        .font(.title)
+                        .foregroundColor(Color.gray)
+                        .padding(.top, 250.0)
+                    Spacer()
+                } // Vstack
+            } // end if isWLEmpty
             
             else {
                 HStack(alignment: .top) {
@@ -87,16 +95,22 @@ struct WatchlistView: View {
                     }
                 } // end Hstack
             }
-        }
+        } // ScrollView
         .onAppear {
             print("Load watchlist view")
             // If there are items saved to WL
             if !watchlist.isEmpty {
                 isWLEmpty = false
             }
-        }
-    }
-}
+        } // onAppear
+        } // NavView
+        
+        // Removes white space above title
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        
+    } // body
+} // WatchlistView
 
 struct WatchlistView_Previews: PreviewProvider {
     static var previews: some View {
