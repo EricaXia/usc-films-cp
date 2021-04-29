@@ -128,7 +128,7 @@ struct DetailsView: View {
                                     
                                     ForEach(0..<reviewsArr.count) {
                                         i in
-                                        NavigationLink(destination: ReviewView(movie: movie, review_num: i)){
+                                        NavigationLink(destination: ReviewView(movie: movie, review_num: i, reviewsArr: reviewsArr)){
                                             
                                             VStack(alignment: .leading, spacing: 10) {
                                                 
