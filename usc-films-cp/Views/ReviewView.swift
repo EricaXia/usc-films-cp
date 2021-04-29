@@ -21,6 +21,13 @@ struct ReviewView: View {
     }
     var body: some View {
     Text("test")
+        ForEach(0..<reviewsArr.count) {
+            i in
+            VStack {
+                Text(reviewsArr[i].authorStr)
+            }
+        }
+    
     }
 //    var body: some View {
 //        Group {
