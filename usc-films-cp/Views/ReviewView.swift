@@ -19,15 +19,27 @@ struct ReviewView: View {
         self.review_num = review_num
         self.reviewsArr = reviewsArr
     }
+    
     var body: some View {
-    Text("test")
+        ScrollView {
         ForEach(0..<reviewsArr.count) {
             i in
-            VStack {
-                Text(reviewsArr[i].authorStr)
-            }
-        }
-    
+            if (i == review_num) {
+                VStack(alignment: .leading) {
+                        Text(movie.titleStr).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).fontWeight(.bold)
+                        Text("By \(reviewsArr[i].authorStr) on \(reviewsArr[i].reviewDateStr)").foregroundColor(.gray)
+                        HStack {
+                            Image(systemName: "star.fill").foregroundColor(.red)
+                            Text("\(reviewsArr[i].starRatingReviewStr)/5.0").fontWeight(.medium)
+                        }
+                        Divider()
+                        Text(reviewsArr[i].contentStr)
+                        Spacer()
+                } // VStack
+                .padding()
+            } // if
+        } // ForEach
+        } // ScrollView
     }
 //    var body: some View {
 //        Group {
