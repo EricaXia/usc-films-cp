@@ -105,21 +105,6 @@ public struct KFImage: View {
         KFImageRenderer(context)
             .id(context.binder)
     }
-
-    /// Starts the loading process of `self` immediately.
-    ///
-    /// By default, a `KFImage` will not load its source until the `onAppear` is called. This is a lazily loading
-    /// behavior and provides better performance. However, when you refresh the view, the lazy loading also causes a
-    /// flickering since the loading does not happen immediately. Call this method if you want to start the load at once
-    /// could help avoiding the flickering, with some performance trade-off.
-    ///
-    /// - Returns: The `Self` value with changes applied.
-    public func loadImmediately(_ start: Bool = true) -> KFImage {
-        if start {
-            context.binder.start()
-        }
-        return self
-    }
 }
 
 @available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
@@ -142,7 +127,10 @@ extension KFImage {
 struct KFImageRenderer: View {
 
     /// An image binder that manages loading and cancelling image related task.
-    @ObservedObject var binder: KFImage.ImageBinder
+    private let binder: KFImage.ImageBinder
+
+    @State private var loadingResult: Result<RetrieveImageResult, KingfisherError>?
+    @State private var isLoaded = false
 
     // Acts as a placeholder when loading an image.
     var placeholder: AnyView?
@@ -162,12 +150,17 @@ struct KFImageRenderer: View {
 
     /// Declares the content and behavior of this view.
     var body: some View {
-        if let image = binder.loadedImage {
+        if case .success(let r) = loadingResult {
             configurations
-                .reduce(imageFromResult(image)) {
+                .reduce(imageFromResult(r.image)) {
                     current, config in config(current)
                 }
-                .opacity(binder.loaded ? 1.0 : 0.0)
+                .opacity(isLoaded ? 1.0 : 0.0)
+        } else if let image = binder.loadedImage {
+            configurations
+                .reduce(Image(crossPlatformImage: image)) {
+                    current, config in config(current)
+                }
         } else {
             Group {
                 if placeholder != nil {
@@ -181,7 +174,17 @@ struct KFImageRenderer: View {
                     return
                 }
                 if !binder.loadingOrSucceeded {
-                    binder.start()
+                    binder.start { result in
+                        self.loadingResult = result
+                        switch result {
+                        case .success(let value):
+                            let animation = fadeTransitionDuration(cacheType: value.cacheType)
+                                .map { duration in Animation.linear(duration: duration) }
+                            withAnimation(animation) { isLoaded = true }
+                        case .failure(_):
+                            break
+                        }
+                    }
                 }
             }
             .onDisappear { [weak binder = self.binder] in
@@ -216,6 +219,28 @@ struct KFImageRenderer: View {
             return Image(crossPlatformImage: resultImage)
             #endif
 
+        }
+    }
+
+    private func shouldApplyFade(cacheType: CacheType) -> Bool {
+        binder.options.forceTransition || cacheType == .none
+    }
+
+    private func fadeTransitionDuration(cacheType: CacheType) -> TimeInterval? {
+        shouldApplyFade(cacheType: cacheType)
+            ? binder.options.transition.fadeDuration
+            : nil
+    }
+}
+
+extension ImageTransition {
+    // Only for fade effect in SwiftUI.
+    fileprivate var fadeDuration: TimeInterval? {
+        switch self {
+        case .fade(let duration):
+            return duration
+        default:
+            return nil
         }
     }
 }
