@@ -36,7 +36,9 @@ struct HomeView: View {
     @State var isDelay = false
     
     // For watchlist:
-    @AppStorage("watchlist") var watchlist: [Movie] = [Movie]()
+//    @AppStorage("watchlist") var watchlist: [Movie] = [Movie]()
+    @StateObject var watchlistModel = WatchlistModel()
+    
     @State private var isToastShown_TR = false
     @State private var isToastShown_Pop = false
     @State private var isMovieOnWL = false
@@ -283,9 +285,9 @@ struct HomeView: View {
                             Button{
                                 self.ToastMsg_TR = movie.titleStr
                                 // if movie already found on WL:
-                                if let idx = watchlist.firstIndex(where: { $0 == movie }) {
+                                if let idx = watchlistModel.watchlist.firstIndex(where: { $0 == movie }) {
                                     // Click btn to REMOVE from WL
-                                    watchlist.remove(at: idx)
+                                    watchlistModel.watchlist.remove(at: idx)
                                     self.isMovieOnWL = false
                                     // show Toast
                                     withAnimation {
@@ -298,14 +300,14 @@ struct HomeView: View {
                                         self.isToastShown_TR = true
                                     }
                                     // Add to WL
-                                    watchlist.append(movie)
+                                    watchlistModel.watchlist.append(movie)
                                     print("Added movie \(movie.titleStr) to WL")
                                     self.isMovieOnWL = true
                                 } //end if
                             } label: {
                                 HStack {
-                                    Text("\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
-                                    Image(systemName: "\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
+                                    Text("\(watchlistModel.watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
+                                    Image(systemName: "\(watchlistModel.watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
                                 }
                             } // WL btn end
                             
@@ -383,9 +385,9 @@ struct HomeView: View {
                             Button{
                                 self.ToastMsg_TR = movie.titleStr
                                 // if movie already found on WL:
-                                if let idx = watchlist.firstIndex(where: { $0 == movie }) {
+                                if let idx = watchlistModel.watchlist.firstIndex(where: { $0 == movie }) {
                                     // Click btn to REMOVE from WL
-                                    watchlist.remove(at: idx)
+                                    watchlistModel.watchlist.remove(at: idx)
                                     self.isMovieOnWL = false
                                     // show Toast
                                     withAnimation {
@@ -398,14 +400,14 @@ struct HomeView: View {
                                         self.isToastShown_TR = true
                                     }
                                     // Add to WL
-                                    watchlist.append(movie)
+                                    watchlistModel.watchlist.append(movie)
                                     print("Added movie \(movie.titleStr) to WL")
                                     self.isMovieOnWL = true
                                 } //end if
                             } label: {
                                 HStack {
-                                    Text("\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
-                                    Image(systemName: "\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
+                                    Text("\(watchlistModel.watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
+                                    Image(systemName: "\(watchlistModel.watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
                                 }
                             } // WL btn end
                             Button {
@@ -481,9 +483,9 @@ struct HomeView: View {
                             Button{
                                 self.ToastMsg_Pop = movie.titleStr
                                 // if movie already found on WL:
-                                if let idx = watchlist.firstIndex(where: { $0 == movie }) {
+                                if let idx = watchlistModel.watchlist.firstIndex(where: { $0 == movie }) {
                                     // Click btn to REMOVE from WL
-                                    watchlist.remove(at: idx)
+                                    watchlistModel.watchlist.remove(at: idx)
                                     self.isMovieOnWL = false
                                     // show Toast
                                     withAnimation {
@@ -496,14 +498,14 @@ struct HomeView: View {
                                         self.isToastShown_Pop = true
                                     }
                                     // Add to WL
-                                    watchlist.append(movie)
+                                    watchlistModel.watchlist.append(movie)
                                     print("Added movie \(movie.titleStr) to WL")
                                     self.isMovieOnWL = true
                                 } //end if
                             } label: {
                                 HStack {
-                                    Text("\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
-                                    Image(systemName: "\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
+                                    Text("\(watchlistModel.watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
+                                    Image(systemName: "\(watchlistModel.watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
                                 }
                             } // WL btn end
                             
@@ -582,9 +584,9 @@ struct HomeView: View {
                             Button{
                                 self.ToastMsg_Pop = movie.titleStr
                                 // if movie already found on WL:
-                                if let idx = watchlist.firstIndex(where: { $0 == movie }) {
+                                if let idx = watchlistModel.watchlist.firstIndex(where: { $0 == movie }) {
                                     // Click btn to REMOVE from WL
-                                    watchlist.remove(at: idx)
+                                    watchlistModel.watchlist.remove(at: idx)
                                     self.isMovieOnWL = false
                                     // show Toast
                                     withAnimation {
@@ -597,14 +599,14 @@ struct HomeView: View {
                                         self.isToastShown_Pop = true
                                     }
                                     // Add to WL
-                                    watchlist.append(movie)
+                                    watchlistModel.watchlist.append(movie)
                                     print("Added movie \(movie.titleStr) to WL")
                                     self.isMovieOnWL = true
                                 } //end if
                             } label: {
                                 HStack {
-                                    Text("\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
-                                    Image(systemName: "\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
+                                    Text("\(watchlistModel.watchlist.firstIndex(where: { $0 == movie }) != nil ? "Remove from watchList" : "Add to watchList")")
+                                    Image(systemName: "\(watchlistModel.watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
                                 }
                             } // WL btn end
                             Button {

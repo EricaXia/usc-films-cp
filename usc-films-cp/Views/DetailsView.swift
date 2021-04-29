@@ -33,7 +33,8 @@ struct DetailsView: View {
     @State var showMoreText = true
     
     // For watchlist:
-    @AppStorage("watchlist") var watchlist: [Movie] = [Movie]()
+//    @AppStorage("watchlist") var watchlist: [Movie] = [Movie]()
+    @StateObject var watchlistModel = WatchlistModel()
     @State private var isToastShown = false
     @State private var isMovieOnWL = false
     @State var btnText = "Add to watchlist"
@@ -243,9 +244,9 @@ struct DetailsView: View {
                     Button{
                         self.ToastMsg = movie.titleStr
                         // if movie already found on WL:
-                        if let idx = watchlist.firstIndex(where: { $0 == movie }) {
+                        if let idx = watchlistModel.watchlist.firstIndex(where: { $0 == movie }) {
                             // Click btn to REMOVE from WL
-                            watchlist.remove(at: idx)
+                            watchlistModel.watchlist.remove(at: idx)
                             self.isMovieOnWL = false
                             // show Toast
                             withAnimation {
@@ -258,13 +259,13 @@ struct DetailsView: View {
                                 self.isToastShown = true
                             }
                             // Add to WL
-                            watchlist.append(movie)
+                            watchlistModel.watchlist.append(movie)
                             print("Added movie \(movie.titleStr) to WL")
                             self.isMovieOnWL = true
                         } //end if
                     } label: {
                         HStack {
-                            Image(systemName: "\(watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
+                            Image(systemName: "\(watchlistModel.watchlist.firstIndex(where: { $0 == movie }) != nil ? "bookmark.fill" : "bookmark")")
                         }
                     } // WL btn end
                     
