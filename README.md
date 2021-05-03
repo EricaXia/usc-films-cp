@@ -1,6 +1,7 @@
 # USC Films iOS app (uses Cocoapods)
 
-![](https://github.com/EricaXia/usc-films-cp/raw/master/img1.png)
+
+<img src="https://github.com/EricaXia/usc-films-cp/raw/master/img1.png" width=200>
 
 ![](https://github.com/EricaXia/usc-films-cp/raw/master/img2.png)
 
