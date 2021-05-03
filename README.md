@@ -1,12 +1,12 @@
 # USC Films iOS app (uses Cocoapods)
 
+<p float="left">
 
 <img src="https://github.com/EricaXia/usc-films-cp/raw/master/img1.png" width=200>
+<img src="https://github.com/EricaXia/usc-films-cp/raw/master/img2.png" width=200>
+<img src="https://github.com/EricaXia/usc-films-cp/raw/master/img3.png" width=200>
 
-![](https://github.com/EricaXia/usc-films-cp/raw/master/img2.png)
-
-![](https://github.com/EricaXia/usc-films-cp/raw/master/img3.png)
-
+</p>
 
 Movie data from [TMDB](https://www.themoviedb.org/?language=en-US). 
 
