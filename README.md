@@ -1,4 +1,4 @@
-# USC Films iOS app (uses Cocoapods)
+# USC Films iOS app
 
 <p float="left">
 
@@ -12,7 +12,4 @@ Movie data from [TMDB](https://www.themoviedb.org/?language=en-US).
 
 Backend [Node.js](https://nodejs.org/en/) server hosted on [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/).
 
-
-
-
-
+Uses [Cocoapods](https://cocoapods.org/) as the package manager.
